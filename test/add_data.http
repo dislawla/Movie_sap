@@ -16,5 +16,14 @@ POST {{baseUrl}}/admin/Locations
 Content-Type: application/json
 
 {
-  "title": "Direct"
+  "country_code": "ru",
+  "title": "Москва"
+}
+
+POST {{baseUrl}}/admin/Locations
+Content-Type: application/json
+
+{
+  "country_code": "de",
+  "title": "Berlin"
 }
