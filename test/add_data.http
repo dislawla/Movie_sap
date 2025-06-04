@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:4004
+
+### ------------------------------------------------------------------------
+
+### ------------------------------------------------------------------------
+# Create a new post
+# @name createNewPost
+POST {{baseUrl}}/movie/Posts
+Content-Type: application/json
+
+{
+  "title": "Direct"
+}
