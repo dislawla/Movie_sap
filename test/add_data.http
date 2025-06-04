@@ -11,3 +11,10 @@ Content-Type: application/json
 {
   "title": "Direct"
 }
+
+POST {{baseUrl}}/admin/Locations
+Content-Type: application/json
+
+{
+  "title": "Direct"
+}

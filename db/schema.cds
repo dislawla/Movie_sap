@@ -8,16 +8,24 @@ using {
 
 type Location: Association to Locations;
 
+aspect EmployeeName  {
+    firstName : String @mandatory @(title : '{i18n>FirstName}');
+    lastName  : String @mandatory @(title : '{i18n>LastName}');
+}
+
+
+
 entity Movies : cuid, managed {
-  title : String @mandatory;
-  staff : Association to many Staff on staff.movie = $self;
-  scene: Association to many Scenes on scene.movie = $self;
-  location: Location;
-  status : Status;
+  title : localized String @mandatory @(title : '{i18n>MovieTitle}');
+  staff : Association to many Staff on staff.movie = $self @cds.autoexpose;
+  scene: Association to many Scenes on scene.movie = $self @cds.autoexpose;
+  location: Location @cds.autoexpose;
+  status : Status @(title : '{i18n>MovieStatus}');
+
 }
 
 entity Scenes: cuid, managed {
-    title: String;
+    title: String @mandatory @(title : '{i18n>SceneTitle}');
     movie: Association to Movies @mandatory @assert.target;
     location: Location;
 }
@@ -31,7 +39,7 @@ entity Locations: cuid, managed {
 entity Property: cuid, managed{
     type: Proptype; 
     title: String;  
-    location:Location;
+    location: Location @mandatory @assert.target;
 }
 
 type Proptype: Integer enum{
@@ -40,11 +48,9 @@ type Proptype: Integer enum{
     house = 2;
 }
 
-entity Staff:cuid,managed{
-    firstName: String;
-    lastName: String;
+entity Staff:cuid, managed, EmployeeName {
     movie: Association to Movies;
-    type: Association to Post;
+    post: Association to Post;
     booking:Association to many Booking on booking.staff = $self;
 }
 
@@ -53,7 +59,7 @@ title:String;
 }
 
 entity Booking: cuid, managed{
-    title: String;
+    title: String @mandatory @(title : '{i18n>BookingTitle}');
     dateFrom: Date;
     dateTo: Date;
     Property: Association to Property;

@@ -10,3 +10,5 @@ service MovieService @(path: '/movie') {
   entity Staff     as projection on mv.Staff;
   entity Booking   as projection on mv.Booking;
 }
+
+annotate MovieService.Movies with @odata.draft.enabled; 
