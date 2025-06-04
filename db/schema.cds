@@ -9,23 +9,23 @@ using {
 type Location: Association to Locations;
 
 aspect EmployeeName  {
-    firstName : String @mandatory @(title : '{i18n>FirstName}');
-    lastName  : String @mandatory @(title : '{i18n>LastName}');
+    firstName : String @mandatory ;
+    lastName  : String @mandatory ;
 }
 
 
 
 entity Movies : cuid, managed {
-  title : localized String @mandatory @(title : '{i18n>MovieTitle}');
+  title : localized String @mandatory ;
   staff : Association to many Staff on staff.movie = $self @cds.autoexpose;
   scene: Association to many Scenes on scene.movie = $self @cds.autoexpose;
   location: Location @cds.autoexpose;
-  status : Status @(title : '{i18n>MovieStatus}');
+  status : Status ;
 
 }
 
 entity Scenes: cuid, managed {
-    title: String @mandatory @(title : '{i18n>SceneTitle}');
+    title: String @mandatory ;
     movie: Association to Movies @mandatory @assert.target;
     location: Location;
 }
@@ -59,7 +59,7 @@ title:String;
 }
 
 entity Booking: cuid, managed{
-    title: String @mandatory @(title : '{i18n>BookingTitle}');
+    title: String @mandatory ;
     dateFrom: Date;
     dateTo: Date;
     Property: Association to Property;
