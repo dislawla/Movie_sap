@@ -12,6 +12,8 @@ Content-Type: application/json
   "title": "Direct"
 }
 
+### ------------------------------------------------------------------------
+
 POST {{baseUrl}}/admin/Locations
 Content-Type: application/json
 
@@ -20,6 +22,8 @@ Content-Type: application/json
   "title": "Москва"
 }
 
+### ------------------------------------------------------------------------
+
 POST {{baseUrl}}/admin/Locations
 Content-Type: application/json
 
@@ -27,3 +31,13 @@ Content-Type: application/json
   "country_code": "de",
   "title": "Berlin"
 }
+
+### ------------------------------------------------------------------------
+
+POST {{baseUrl}}/movie/Movies
+Content-Type: application/json
+
+{
+  "title": "Romeo and Juliet"
+}
+

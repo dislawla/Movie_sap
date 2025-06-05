@@ -20,7 +20,7 @@ entity Movies : cuid, managed {
   staff : Association to many Staff on staff.movie = $self @cds.autoexpose;
   scene: Association to many Scenes on scene.movie = $self @cds.autoexpose;
   location: Location @cds.autoexpose;
-  status : Status ;
+  status : Status @mandatory @default : 0;
 
 }
 
@@ -68,7 +68,8 @@ entity Booking: cuid, managed{
 
 
 type Status: Integer enum{
-    Preprod = 0;
+    Concept = 0;
     Production = 1;
     Postproduction = 2;
+    Released = 3;
 }
