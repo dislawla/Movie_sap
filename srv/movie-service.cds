@@ -23,4 +23,4 @@ service MovieService @(path: '/movie') {
 
 }
 
-annotate MovieService.Movies with @odata.draft.enabled; 
+// annotate MovieService.Movies with @odata.draft.enabled; 

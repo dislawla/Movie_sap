@@ -58,7 +58,7 @@ type Proptype: Integer enum{
     house = 2;
 }
 
-entity Staff:cuid, managed, EmployeeName {
+entity Staff:cuid, managed {
     movie: Association to Movies;
     employee: Association to Employee;
 }
@@ -73,7 +73,6 @@ entity Employee:cuid, managed, EmployeeName {
 
 entity Post: cuid, managed{
 title:String;
-employees: Association to many Employee on employees.post = $self;
 }
 
 entity Booking: cuid, managed{
