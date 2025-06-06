@@ -70,6 +70,11 @@ entity Employee:cuid, managed, EmployeeName {
     Emails: EmailAddresses;
 }
 
+entity EmployName as select from Employee{
+ ID,
+ (firstName || ' ' || lastName) as fullname
+}
+
 
 entity Post: cuid, managed{
 title:String;

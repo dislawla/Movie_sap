@@ -97,3 +97,7 @@ GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'&$expand=staff
 
 ###
 GET {{baseUrl}}/movie/Employee?$filter=firstName eq 'Sergey' and lastName eq 'Burunov'&$expand=staff
+
+###
+GET {{baseUrl}}/movie/EmployNames
+Accept: application/json

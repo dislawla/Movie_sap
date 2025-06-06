@@ -6,14 +6,18 @@ init(){
 
     const { Movies } = cds.entities('MovieService');
 
-    this.on ('pushMovieStatus', async req => {
-        const {movieID} = req.data
+    this.before ('pushMovieStatus', async req => {
 
-        const movie = await SELECT.one.from(Movies).where({ ID: movieID });
+      const movie = await SELECT.one.from(Movies).where({ ID: movieID });
 
         if (movie.status >= 3){
             return req.error('CANT_UPDATE_STATUS');
         }
+
+    })
+
+    this.on ('pushMovieStatus', async req => {
+        const {movieID} = req.data
 
         const n = await UPDATE (Movies, movieID)
           .with ({ status: {'+=': 1 }})
@@ -22,6 +26,10 @@ init(){
             return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS' )
         }
       })
+
+    this.after ('CREATE', async req => {
+      return req.info( 'MOVIE_CREATED' )
+    })
 
     return super.init();
 }
