@@ -62,6 +62,35 @@ Content-Type: application/json
   ]
 }
 
-### ------------------------------------------------------------------------GET {{baseUrl}}/movie/Employee?$filter=post/title eq 'Director'
+### ------------------------------------------------------------------------
 GET {{baseUrl}}/movie/Employee?$filter=post/title eq 'Actor'&$expand=post
 Accept: application/json
+
+### ------------------------------------------------------------------------
+
+# @name getMovie
+GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'
+
+###
+
+@movieID = {{getMovie.response.body.$.value[0].ID}}
+
+# @name getEmployee
+GET {{baseUrl}}/movie/Employee?$filter=firstName eq 'Sergey' and lastName eq 'Burunov'
+
+@employeeID = {{getEmployee.response.body.$.value[0].ID}}
+
+POST {{baseUrl}}/movie/Employee
+Content-Type: application/json
+
+{
+  "post_ID" : "{{postID}}",
+  "firstName": "Sergey",
+  "lastName": "Burunov",
+  "Emails": [
+    { "kind": "work", "address": "s.bur@company.com" },
+    { "kind": "personal", "address": "s.bur@gmail.com" }
+  ]
+}
+
+
