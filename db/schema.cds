@@ -30,7 +30,7 @@ entity Movies : cuid, managed {
   staff : Composition of many Staff on staff.movie = $self @cds.autoexpose;
   scene: Composition of many Scenes on scene.parent = $self @cds.autoexpose;
   location: Location @cds.autoexpose;
-  status : Status @mandatory @default : 0;
+  status : Status @default : 0;
 
 }
 

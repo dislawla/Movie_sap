@@ -8,6 +8,8 @@ init(){
 
     this.before ('pushMovieStatus', async req => {
 
+      const {movieID} = req.data
+
       const movie = await SELECT.one.from(Movies).where({ ID: movieID });
 
         if (movie.status >= 3){
@@ -22,13 +24,16 @@ init(){
         const n = await UPDATE (Movies, movieID)
           .with ({ status: {'+=': 1 }})
 
+        const movie = await SELECT.one.from(Movies).where({ ID: movieID });
+  
         if (n > 0) {
-            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS' )
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[movie.status] )
         }
       })
 
-    this.after ('CREATE', async req => {
-      return req.info( 'MOVIE_CREATED' )
+    this.after ('CREATE',Movies, (data, req) => {
+      req.info( 'MOVIE_CREATED',[data.title] )
+      return data
     })
 
     return super.init();
