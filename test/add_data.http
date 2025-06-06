@@ -5,7 +5,7 @@
 ### ------------------------------------------------------------------------
 # Create a new post
 # @name createNewPost
-POST {{baseUrl}}/movie/Posts
+POST {{baseUrl}}/admin/Posts
 Content-Type: application/json
 
 {
@@ -41,3 +41,27 @@ Content-Type: application/json
   "title": "Romeo and Juliet"
 }
 
+### ------------------------------------------------------------------------
+# @name getPost
+GET {{baseUrl}}/admin/Post?$filter=title eq 'Actor'
+
+###
+
+@postID = {{getPost.response.body.$.value[0].ID}}
+
+POST {{baseUrl}}/movie/Employee
+Content-Type: application/json
+
+{
+  "post_ID" : "{{postID}}",
+  "firstName": "Sergey",
+  "lastName": "Burunov",
+  "Emails": [
+    { "kind": "work", "address": "s.bur@company.com" },
+    { "kind": "personal", "address": "s.bur@gmail.com" }
+  ]
+}
+
+### ------------------------------------------------------------------------GET {{baseUrl}}/movie/Employee?$filter=post/title eq 'Director'
+GET {{baseUrl}}/movie/Employee?$filter=post/title eq 'Actor'&$expand=post
+Accept: application/json

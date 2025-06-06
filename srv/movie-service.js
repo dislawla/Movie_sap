@@ -19,7 +19,7 @@ init(){
           .with ({ status: {'+=': 1 }})
 
         if (n > 0) {
-            return{ message: 'PROMOTE_MOVIE_STATUS_SUCCSESS' }
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS' )
         }
       })
 

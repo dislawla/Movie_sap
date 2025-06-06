@@ -1,1 +1,1 @@
-ID,firstName,lastName,movie_ID,type_ID,createdAt,createdBy,modifiedAt,modifiedBy
+ID,movie_ID,employee_ID,createdAt,createdBy,modifiedAt,modifiedBy,firstName,lastName

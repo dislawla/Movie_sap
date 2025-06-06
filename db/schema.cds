@@ -8,6 +8,16 @@ using {
 
 type Location: Association to Locations;
 
+type EmailAddress : { kind:String; address:String; }
+type EmailAddresses : many EmailAddress;
+
+type Status: Integer enum{
+    Concept = 0;
+    Production = 1;
+    Postproduction = 2;
+    Released = 3;
+}
+
 aspect EmployeeName  {
     firstName : String @mandatory ;
     lastName  : String @mandatory ;
@@ -17,16 +27,16 @@ aspect EmployeeName  {
 
 entity Movies : cuid, managed {
   title : localized String @mandatory ;
-  staff : Association to many Staff on staff.movie = $self @cds.autoexpose;
-  scene: Association to many Scenes on scene.movie = $self @cds.autoexpose;
+  staff : Composition of many Staff on staff.movie = $self @cds.autoexpose;
+  scene: Composition of many Scenes on scene.parent = $self @cds.autoexpose;
   location: Location @cds.autoexpose;
   status : Status @mandatory @default : 0;
 
 }
 
 entity Scenes: cuid, managed {
+    key parent : Association to Movies @mandatory @assert.target;
     title: String @mandatory ;
-    movie: Association to Movies @mandatory @assert.target;
     location: Location;
 }
 
@@ -50,12 +60,20 @@ type Proptype: Integer enum{
 
 entity Staff:cuid, managed, EmployeeName {
     movie: Association to Movies;
-    post: Association to Post;
-    booking:Association to many Booking on booking.staff = $self;
+    employee: Association to Employee;
 }
+
+entity Employee:cuid, managed, EmployeeName {
+    staff: Composition of many Staff on staff.employee = $self;
+    post: Association to Post;
+    booking:Association to many Booking on booking.employee = $self;
+    Emails: EmailAddresses;
+}
+
 
 entity Post: cuid, managed{
 title:String;
+employees: Association to many Employee on employees.post = $self;
 }
 
 entity Booking: cuid, managed{
@@ -63,13 +81,6 @@ entity Booking: cuid, managed{
     dateFrom: Date;
     dateTo: Date;
     Property: Association to Property;
-    staff:Association to Staff;
+    employee:Association to Employee;
 }
 
-
-type Status: Integer enum{
-    Concept = 0;
-    Production = 1;
-    Postproduction = 2;
-    Released = 3;
-}
