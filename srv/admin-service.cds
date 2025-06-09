@@ -8,4 +8,4 @@ service AdminService @(path: '/admin') {
 
 }
 
-annotate AdminService.Posts with @odata.draft.enabled; 
+// annotate AdminService.Post with @odata.draft.enabled; 

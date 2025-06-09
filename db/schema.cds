@@ -72,7 +72,7 @@ entity Employee:cuid, managed, EmployeeName {
 
 entity EmployName as select from Employee{
  ID,
- (firstName || ' ' || lastName) as fullname
+ virtual (firstName || ' ' || lastName) as fullname : String
 }
 
 
