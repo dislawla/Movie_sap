@@ -23,6 +23,7 @@ service MovieService @(path: '/movie') {
   entity EmployNames as projection on mv.EmployName;
 
   action pushMovieStatus( movieID: Movies:ID ) returns { message: String; };
+  action getActorsCount( movieID: Movies:ID ) returns Integer;
 
   function sum (x:Integer, y:Integer) returns Integer;
 }

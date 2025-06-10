@@ -36,6 +36,17 @@ init(){
       return data
     })
 
+    this.on('getActorsCount', async req => {
+      const { movieID } = req.data;
+    const { Staff } = cds.entities('MovieService');
+
+    const result = await SELECT.from(Staff)
+                             .where({ movie_ID: movieID })
+                             .columns('count(DISTINCT employee_ID) as actorsCount');
+      
+      return result[0].actorsCount;
+  });
+  
     return super.init();
 }
 
