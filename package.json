@@ -6,18 +6,17 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@cap-js/hana": "^1",
+    "@cap-js/hana": "^2.1.1",
     "@sap/cds": "^9.0.3",
-    "@sap/cds-dk": "^9.0.4",
-    "express": "^4",
-    "@sap/xssec": "^4"
+    "@sap/cds-dk": "^9.0.5",
+    "@sap/xssec": "^4",
+    "express": "^4"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.10.0"
   },
   "scripts": {
-    "start": "cds-serve",
-    "watch-movies": "cds watch --open movies/webapp/index.html?sap-ui-xx-viewCache=false"
+    "start": "cds-serve"
   },
   "sapux": [
     "app/movies"
