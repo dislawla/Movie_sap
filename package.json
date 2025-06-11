@@ -6,14 +6,15 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@cap-js/hana": "^2.1.1",
+    "@cap-js/hana": "^2",
     "@sap/cds": "^9.0.3",
     "@sap/cds-dk": "^9.0.5",
     "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/cds-types": "^0.10.0"
+    "@cap-js/cds-types": "^0.10.0",
+    "@sap/cds-dk": ">=8"
   },
   "scripts": {
     "start": "cds-serve"
