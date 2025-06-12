@@ -26,6 +26,7 @@ service MovieService @(path: '/movie') {
 
   function getActorsCount (movieID: Movies:ID ) returns Integer;
 
+  function sleep() returns Boolean;
 }
 
 // annotate MovieService.Movies with @odata.draft.enabled; 
