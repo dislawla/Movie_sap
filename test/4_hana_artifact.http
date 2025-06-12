@@ -3,5 +3,5 @@
 ###
 
 ## Test Sleep Function
-POST http://localhost:4004/movie/sleep
+GET http://localhost:4004/movie/sleep
 Content-Type: application/json 
