@@ -28,7 +28,8 @@
         "auth": "xsuaa"
       },
       "[hybrid]": {
-        "db": "hana"
+        "db": "hana",
+        "auth": "xsuaa"
       }
     },
     "sql": {
