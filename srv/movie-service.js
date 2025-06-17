@@ -56,7 +56,7 @@ init(){
     const { status } = req.data;
     const { MVStatus } = cds.entities('MovieService');
 
-    const result = await SELECT.from(MVStatus, { MvStatus: status });
+    const result =  await SELECT.from(MVStatus, {MvStatus: status})
     
     return result;
 });
