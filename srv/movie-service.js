@@ -52,14 +52,14 @@ init(){
       return result[0].actorsCount;
   });
   
-  this.on('getMoviesByStatus', async req => {
-    const { status } = req.data;
-    const { MVStatus } = cds.entities('MovieService');
+//   this.on('getMoviesByStatus', async req => {
+//     const { status } = req.data;
+//     const { MVStatus } = cds.entities('MovieService');
 
-    const result =  await SELECT.from(MVStatus, {MvStatus: status})
+//     const result =  await SELECT.from(MVStatus, {MvStatus: status})
     
-    return result;
-});
+//     return result;
+// });
 
   this.on('sleep', async () => {
     try {
