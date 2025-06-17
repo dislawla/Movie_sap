@@ -26,6 +26,8 @@ service MovieService @(path: '/movie') {
 
   function getActorsCount (movieID: Movies:ID ) returns Integer;
 
+  function getMoviesByStatus( status: Movies:status) returns many Movies;
+
   function sleep() returns Boolean;
 }
 

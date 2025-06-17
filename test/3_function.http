@@ -8,10 +8,18 @@ GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'
 
 @movieID = {{getMovie.response.body.$.value[0].ID}}
 
-POST {{baseUrl}}/movie/pushMovieStatus
+GET {{baseUrl}}/movie/getActorsCount
 Accept-Language: ru
 Content-Type: application/json
 
 {
   "movieID": "{{movieID}}"
+}
+###
+GET {{baseUrl}}/movie/getMoviesByStatus
+Accept-Language: ru
+Content-Type: application/json
+
+{
+  "status": 0
 }

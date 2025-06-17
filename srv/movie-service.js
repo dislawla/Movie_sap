@@ -21,13 +21,18 @@ init(){
     this.on ('pushMovieStatus', async req => {
         const {movieID} = req.data
 
-        const n = await UPDATE (Movies, movieID)
-          .with ({ status: {'+=': 1 }})
-
+            // Получить текущее значение
         const movie = await SELECT.one.from(Movies).where({ ID: movieID });
-  
+        if (!movie) return req.error('MOVIE_NOT_FOUND');
+
+           // Увеличить статус
+        const newStatus = movie.status + 1;
+
+            // Обновить статус
+         const n = await UPDATE(Movies, movieID).with({ status: newStatus });
+
         if (n > 0) {
-            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[movie.status] )
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )
         }
       })
 
@@ -47,6 +52,15 @@ init(){
       return result[0].actorsCount;
   });
   
+  this.on('getMoviesByStatus', async req => {
+    const { status } = req.data;
+    const { MVStatus } = cds.entities('MovieService');
+
+    const result = await SELECT.from(MVStatus, { MvStatus: status });
+    
+    return result;
+});
+
   this.on('sleep', async () => {
     try {
         let dbQuery = ' Call "sleep"( )'
