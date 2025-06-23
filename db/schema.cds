@@ -30,7 +30,7 @@ entity Movies : cuid, managed {
   staff : Composition of many Staff on staff.movie = $self @cds.autoexpose;
   scene: Composition of many Scenes on scene.parent = $self @cds.autoexpose;
   location: Location @cds.autoexpose;
-  status : Status @default : 0;
+  status : Status default 0;
 
 }
 
@@ -40,11 +40,15 @@ entity Scenes: cuid, managed {
     location: Location;
 }
 
-entity Locations: cuid, managed {
+entity Locations 
+    @(restrict: [
+    { grant: ['READ','WRITE'], to: 'Admin' } ] )
+    : cuid, managed
+ {
     country: Country;
     title: String @mandatory;
     property: Association to many Property on property.location = $self;
-}
+} 
 
 entity Property: cuid, managed{
     type: Proptype; 

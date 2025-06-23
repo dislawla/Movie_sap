@@ -17,7 +17,11 @@
     "@sap/cds-dk": ">=8"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "build_hana": "cds build --for hana",
+    "hybrid": "cds watch --profile hybrid",
+    "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
+    "auth_app_router": "cds bind --exec -- npm start --prefix app/router"
   },
   "sapux": [
     "app/movies"

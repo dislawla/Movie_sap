@@ -24,7 +24,7 @@ Content-Type: application/json
   "status": 0
 }
 ###
-GET {{baseUrl}}/movie/MVStatus(0)/Set 
+GET {{baseUrl}}/movie/MVStatus(1)/Set 
 Accept: application/json
 
 ###
