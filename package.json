@@ -10,8 +10,7 @@
     "@sap/cds": "^9.0.3",
     "@sap/cds-dk": "^9.0.5",
     "@sap/xssec": "^4",
-    "express": "^4",
-    // "@sap/approuter": "Movie_sap_approuter"
+    "express": "^4"
   },
  
   "devDependencies": {
@@ -20,7 +19,6 @@
   },
   "scripts": {
     "start": "cds-serve",
-    // "start": "node node_modules/@sap/approuter/approuter.js"
     "build_hana": "cds build --for hana",
     "hybrid": "cds watch --profile hybrid",
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
