@@ -1,7 +1,8 @@
 using { sap.movie as mv } from '../db/schema';
 
 service MovieService @(path: '/movie') { 
-
+@requires           : 'authenticated-user'
+@cds.redirection.target
 
   entity Movies as select from mv.Movies {
     *
