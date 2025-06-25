@@ -1,13 +1,25 @@
-{
+
+  {
     "_version": "1.12.0",
     "sap.app": {
-      "id": "approuter",
+      "id": "sample.basic.html5.mta",
+      "type": "application",
+      "title": "Basic HTML5 App",
       "applicationVersion": {
-        "version": "1.0.0"
+        "version": "0.0.1"
       }
     },
     "sap.cloud": {
       "public": true,
-      "service": "cloud.service"
+      "service": "multi-cloud-html5-apps-samples"
+    },
+    "sap.ui5": {
+      "dependencies": {
+          "minUI5Version": "1.65.0"
+      },
+      "contentDensities": {
+          "compact": true,
+          "cozy": true
+      }
     }
   }
