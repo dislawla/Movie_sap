@@ -3,11 +3,10 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^(.*//HTML5Module/index.html)$",
-      "target": "$1",
-      "service": "html5-apps-repo-rt",
-      "authenticationType": "xsuaa"
-    }
+      "source": "/user-api/currentUser$",
+      "target": "/currentUser",
+      "service": "sap-approuter-userapi"
+    },
     {
       "source": "^(.*)$",
       "target": "$1",
