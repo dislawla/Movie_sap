@@ -23,8 +23,11 @@
     "hybrid": "cds watch --profile hybrid",
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
     "auth_app_router": "cds bind --exec -- npm start --prefix app/router",
-    "srv2xsuua":"cds compile srv/ --to xsuaa > xs-security.json"
+    "srv2xsuua":"cds compile srv/ --to xsuaa > xs-security.json",
+    "mta_build": "mbt build --mtar Movie_sap-mta",
+	  "deploy": "cf deploy mta_archives/Movie_sap-mta.mtar"
   },
+
   "sapux": [
     "app/movies"
   ],
