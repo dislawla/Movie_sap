@@ -25,7 +25,7 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: Movie_sap-db
-      - name: Movie_sap-auth
+      - name: Movie_sap-uaa
 
   - name: Movie_sap-db-deployer
     type: hdb
@@ -97,7 +97,7 @@ modules:
           target-path: resources/
   - name: HTML5Module
     type: html5
-    path: HTML5Module
+    path: app/HTML5Module
     build-parameters:
       builder: custom
       commands:
