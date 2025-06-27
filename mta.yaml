@@ -17,12 +17,12 @@ modules:
     parameters:
       instances: 1
       buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm-ci
     provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+      - name: srv-api
         properties:
           srv-url: ${default-url}
+    build-parameters:
+      builder: npm-ci
     requires:
       - name: Movie_sap-db
       - name: Movie_sap-uaa
@@ -34,27 +34,6 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: Movie_sap-db
-
-  # - name: Movie_sap
-  #   type: approuter.nodejs
-  #   path: app/router
-  #   parameters:
-  #     keep-existing-routes: true
-  #     disk-quota: 256M
-  #     memory: 256M
-  #   requires:
-  #     - name: srv-api
-  #       group: destinations
-  #       properties:
-  #         name: srv-api # must be used in xs-app.json as well
-  #         url: ~{srv-url}
-  #         forwardAuthToken: true
-  #     - name: Movie_sap-auth
-  #   provides:
-  #     - name: app-api
-  #       properties:
-  #         app-protocol: ${protocol}
-  #         app-uri: ${default-uri}
 
   - name: Movie_sap-destination-content
     type: com.sap.application.content
@@ -71,11 +50,11 @@ modules:
             - Name: Movie_sap-repo-host
               ServiceInstanceName: Movie_sap-repo-host
               ServiceKeyName: Movie_sap-repo-host-key
-              sap.cloud.service: Movie_sap-apps-samples
+              sap.cloud.service: multi-cloud-html5-apps-samples
             - Name: Movie_sap-uaa
               ServiceInstanceName: Movie_sap-uaa
               ServiceKeyName: Movie_sap-uaa-key
-              sap.cloud.service: Movie_sap-apps-samples
+              sap.cloud.service: multi-cloud-html5-apps-samples
               Authentication: OAuth2UserTokenExchange
           existing_destinations_policy: update
     build-parameters:
@@ -110,20 +89,6 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
-  # - name: Movie_sap-auth
-  #   type: org.cloudfoundry.managed-service
-  #   parameters:
-  #     service: xsuaa
-  #     service-plan: application
-  #     path: ./xs-security.json
-  #     config:
-  #       xsappname: Movie_sap-${org}-${space}
-  #       tenant-mode: dedicated
-  #       oauth2-configuration:
-  #         redirect-uris:
-  #           - https://~{app-api/app-uri}/**
-  #   requires:
-  #     - name: app-api
 
   - name: Movie_sap-destination-service
     type: org.cloudfoundry.managed-service
@@ -134,6 +99,7 @@ resources:
       config:
         HTML5Runtime_enabled: true
         version: 1.0.0
+
   - name: Movie_sap-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
@@ -141,11 +107,15 @@ resources:
       service-plan: app-host
       service-keys: 
         - name: Movie_sap-repo-host-key
+
   - name: Movie_sap-uaa
     type: org.cloudfoundry.managed-service
     parameters:
       path: ./xs-security.json
       service: xsuaa
       service-plan: application
+      config:
+        xsappname: Movie_sap-${org}-${space}
+        tenant-mode: dedicated
       service-keys: 
         - name: Movie_sap-uaa-key
