@@ -43,10 +43,17 @@ modules:
       - name: Movie_sap-destination-service
         parameters:
           content-target: true
+      - name: srv-api 
     parameters:
       content:
         instance:
           destinations:
+            - Name: srv-api
+              URL: ~{srv-api/srv-url}
+              Authentication: OAuth2UserTokenExchange
+              TokenServiceInstanceName: Movie_sap-uaa
+              TokenServiceKeyName: Movie_sap-uaa-key
+              sap.cloud.service: multi-cloud-html5-apps-samples
             - Name: Movie_sap-repo-host
               ServiceInstanceName: Movie_sap-repo-host
               ServiceKeyName: Movie_sap-repo-host-key

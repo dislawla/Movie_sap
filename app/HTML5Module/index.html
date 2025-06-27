@@ -6,7 +6,7 @@
 
 <script>
   setTimeout(() => {
-    fetch("/api/Movies")
+    fetch("/api/movie/Movies")
       .then((res) => res.json())
       .then((movies) => {
         // movies — это массив фильмов, например [{title: "Интерстеллар", ...}, ...]
@@ -14,6 +14,20 @@
       })
       .catch(err => {
         document.body.innerText = "Ошибка загрузки фильмов: " + err;
+      });
+  }, 1000);
+</script>
+
+<script>
+  setTimeout(() => {
+    fetch("/movie/Employee")
+      .then((res) => res.json())
+      .then((emploees) => {
+        // movies — это массив фильмов, например [{title: "Интерстеллар", ...}, ...]
+        document.body.innerText = "Movies:\n" + emploees.map(e => e.title).join("\n");
+      })
+      .catch(err => {
+        document.body.innerText = "Ошибка загрузки: " + err;
       });
   }, 1000);
 </script>
