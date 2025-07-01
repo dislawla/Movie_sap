@@ -13,7 +13,6 @@
     "mbt": "latest",
     "express": "^4"
   },
- 
   "devDependencies": {
     "@cap-js/cds-types": "^0.10.0",
     "@sap/cds-dk": ">=8"
@@ -24,11 +23,11 @@
     "hybrid": "cds watch --profile hybrid",
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
     "auth_app_router": "cds bind --exec -- npm start --prefix app/router",
-    "srv2xsuua":"cds compile srv/ --to xsuaa > xs-security.json",
+    "srv2xsuua": "cds compile srv/ --to xsuaa > xs-security.json",
     "mta_build": "mbt build --mtar Movie_sap-mta",
-	  "deploy": "cf deploy mta_archives/Movie_sap-mta.mtar"
+    "deploy": "cf deploy mta_archives/Movie_sap-mta.mtar",
+    "watch-movies": "cds watch --open movies/webapp/index.html?sap-ui-xx-viewCache=false"
   },
-
   "cds": {
     "requires": {
       "[production]": {
@@ -42,5 +41,8 @@
     "sql": {
       "native_hana_associations": false
     }
-  }
+  },
+  "sapux": [
+    "app/movies"
+  ]
 }

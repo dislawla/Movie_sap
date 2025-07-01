@@ -10,11 +10,11 @@ build-parameters:
         - npm install
 
 modules:
-- name: Movie_sap-srv1
+- name: Movie_sap-srv
   type: nodejs
   path: gen/srv
   requires:
-  - name: Movie_sap-db1
+  - name: Movie_sap-db
   - name: Movie_sap-uaa
   provides:
   - name: srv-api
@@ -30,7 +30,7 @@ modules:
   type: hdb
   path: gen/db
   requires:
-  - name: Movie_sap-db1
+  - name: Movie_sap-db
   parameters:
     buildpack: nodejs_buildpack
 
@@ -86,7 +86,7 @@ modules:
 
 resources:
 
-- name: Movie_sap-db1
+- name: Movie_sap-db
   type: com.sap.xs.hdi-container
   parameters:
     service: hana
