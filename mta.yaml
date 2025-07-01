@@ -1,128 +1,130 @@
 _schema-version: 3.3.0
 ID: Movie_sap
+description: A simple CAP project.
 version: 1.0.0
-description: "A simple CAP project."
-parameters:
-  enable-parallel-deployments: true
+
 build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm ci
-        - npx cds build --production
+        - npm install
+
 modules:
-  - name: Movie_sap-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      instances: 1
-      buildpack: nodejs_buildpack
-    provides:
-      - name: srv-api
-        properties:
-          srv-url: ${default-url}
-    build-parameters:
-      builder: npm-ci
-    requires:
-      - name: Movie_sap-db
-      - name: Movie_sap-uaa
+- name: Movie_sap-srv1
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: Movie_sap-db1
+  - name: Movie_sap-uaa
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    instances: 1
+  build-parameters:
+    builder: npm-ci
 
-  - name: Movie_sap-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: Movie_sap-db
+- name: Movie_sap-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: Movie_sap-db1
+  parameters:
+    buildpack: nodejs_buildpack
 
-  - name: Movie_sap-destination-content
-    type: com.sap.application.content
-    requires:
-      - name: Movie_sap-uaa
-      - name: Movie_sap-repo-host
-      - name: Movie_sap-destination-service
-        parameters:
-          content-target: true
-      - name: srv-api 
+- name: Movie_sap-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: Movie_sap-uaa
+  - name: Movie_sap-repo-host
+  - name: Movie_sap-destination-service
     parameters:
-      content:
-        instance:
-          destinations:
-            - Name: srv-api
-              URL: ~{srv-api/srv-url}
-              Authentication: OAuth2UserTokenExchange
-              TokenServiceInstanceName: Movie_sap-uaa
-              TokenServiceKeyName: Movie_sap-uaa-key
-              sap.cloud.service: multi-cloud-html5-apps-samples
-            - Name: Movie_sap-repo-host
-              ServiceInstanceName: Movie_sap-repo-host
-              ServiceKeyName: Movie_sap-repo-host-key
-              sap.cloud.service: multi-cloud-html5-apps-samples
-            - Name: Movie_sap-uaa
-              ServiceInstanceName: Movie_sap-uaa
-              ServiceKeyName: Movie_sap-uaa-key
-              sap.cloud.service: multi-cloud-html5-apps-samples
-              Authentication: OAuth2UserTokenExchange
-          existing_destinations_policy: update
-    build-parameters:
-      no-source: true
+      content-target: true
+  - name: srv-api
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: Movie_sap-repo-host
+          ServiceInstanceName: Movie_sap-repo-host
+          ServiceKeyName: Movie_sap-repo-host-key
+          sap.cloud.service: Movie_sap_app
+        - Name: Movie_sap-uaa
+          ServiceInstanceName: Movie_sap-uaa
+          ServiceKeyName: Movie_sap-uaa-key
+          sap.cloud.service: Movie_sap_app
+          Authentication: OAuth2UserTokenExchange
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
 
-  - name: Movie_sap-ui-deployer
-    type: com.sap.application.content
-    path: .
+- name: Movie_sap-ui-deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: Movie_sap-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
     requires:
-      - name: Movie_sap-repo-host
-        parameters:
-          content-target: true
-    build-parameters:
-      build-result: resources
-      requires:
-        - artifacts:
-            - HTML5Module-content.zip
-          name: HTML5Module
-          target-path: resources/
-  - name: HTML5Module
-    type: html5
-    path: app/HTML5Module
-    build-parameters:
-      builder: custom
-      commands:
-        - npm run build
-      supported-platforms: []
+    - artifacts:
+      - HTML5Module-content.zip
+      name: HTML5Module
+      target-path: resources/
+
+- name: HTML5Module
+  type: html5
+  path: app/HTML5Module
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+    supported-platforms: []
 
 resources:
-  - name: Movie_sap-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
 
-  - name: Movie_sap-destination-service
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: destination
-      service-name: Movie_sap-destination-service
-      service-plan: lite
-      config:
-        HTML5Runtime_enabled: true
-        version: 1.0.0
+- name: Movie_sap-db1
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: Movie_sap-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      version: 1.0.0
+    service: destination
+    service-name: Movie_sap-destination-service
+    service-plan: lite
 
-  - name: Movie_sap-repo-host
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-plan: app-host
-      service-keys: 
-        - name: Movie_sap-repo-host-key
+- name: Movie_sap-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-keys:
+    - name: Movie_sap-repo-host-key
+    service-plan: app-host
 
-  - name: Movie_sap-uaa
-    type: org.cloudfoundry.managed-service
-    parameters:
-      path: ./xs-security.json
-      service: xsuaa
-      service-plan: application
-      config:
-        xsappname: Movie_sap-${org}-${space}
-        tenant-mode: dedicated
-      service-keys: 
-        - name: Movie_sap-uaa-key
+- name: Movie_sap-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: Movie_sap-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-keys:
+    - name: Movie_sap-uaa-key
+    service-plan: application
+parameters:
+  enable-parallel-deployments: true
+# build-parameters:
+#   before-all:
+#   - builder: custom
+#     commands:
+#     - npm ci
+#     - npx cds build --production

@@ -10,6 +10,7 @@
     "@sap/cds": "^9.0.3",
     "@sap/cds-dk": "^9.0.5",
     "@sap/xssec": "^4",
+    "mbt": "latest",
     "express": "^4"
   },
  
@@ -28,9 +29,6 @@
 	  "deploy": "cf deploy mta_archives/Movie_sap-mta.mtar"
   },
 
-  "sapux": [
-    "app/movies"
-  ],
   "cds": {
     "requires": {
       "[production]": {
