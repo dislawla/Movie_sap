@@ -56,6 +56,7 @@ modules:
           app-protocol: ${protocol}
           app-uri: ${default-uri}
 
+
 resources:
   - name: Movie_sap-db
     type: com.sap.xs.hdi-container
