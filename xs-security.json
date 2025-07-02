@@ -28,7 +28,7 @@
       "attribute-references": []
     }
   ],
-  "xsappname": "Movie_sap-hybrid",
+  "xsappname": "Movie_sap-hybrid-v2",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "redirect-uris": [
