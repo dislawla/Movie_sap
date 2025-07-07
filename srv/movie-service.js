@@ -6,6 +6,37 @@ init(){
 
     const { Movies } = cds.entities('MovieService');
 
+    this.on('READ', Movies, async (req, next) => {
+
+      const results = await next();
+
+      const movies = Array.isArray(results) ? results : [results];
+
+      movies.forEach(movie => {        
+        switch (movie.status) {
+            case 0: 
+                movie.crit = 1; 
+                break;
+            case 1:
+                movie.crit = 2;
+                break;
+            case 2: 
+                movie.crit = 3;
+                break;
+            case 3:
+                movie.crit = 1; 
+                break;
+            default:
+                movie.crit = 3; 
+        }
+        
+        if (movie.title == "Догони если сможешь") {
+          movie.crit = 3;  
+        }
+
+      });
+    })
+
     this.before ('pushMovieStatus', async req => {
 
       const {movieID} = req.data
@@ -51,15 +82,6 @@ init(){
       
       return result[0].actorsCount;
   });
-  
-//   this.on('getMoviesByStatus', async req => {
-//     const { status } = req.data;
-//     const { MVStatus } = cds.entities('MovieService');
-
-//     const result =  await SELECT.from(MVStatus, {MvStatus: status})
-    
-//     return result;
-// });
 
   this.on('sleep', async () => {
     try {

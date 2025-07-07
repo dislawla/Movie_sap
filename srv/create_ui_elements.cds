@@ -1,60 +1,62 @@
-using MovieService from './movie-service.cds';
+// using MovieService from './movie-service.cds';
 
-annotate MovieService.Movies with {
-    title    @title: 'Title';
-    staff    @title: 'Staff';
-    scene    @title: 'Scene';
-    location @title: 'Location';
-    status   @title: 'Status';
-} ;
+// annotate MovieService.Movies with {
+//     title    @title: '{i18n>Title}';
+//     staff    @title: '{i18n>Staff}';
+//     scene    @title: '{i18n>Scene}';
+//     location @title: '{i18n>Location}';
+//     status   @title: '{i18n>Status}';
+// } ;
 
-annotate MovieService.Movies with @(
-    UI: {
-        HeaderInfo  : {
-            $Type : 'UI.HeaderInfoType',
-            TypeName : 'Movies',
-            TypeNamePlural : 'Movies',
-            Title:{
-                $Type : 'UI.DataField',
-                Label : '{i18n>Movietitle}',
-                Value : title,
-            },
 
-            Status:{
-                $Type : 'UI.DataField',
-                Label : '{i18n>Moviestatus}',
-                Value : status,
-            }
-        },
-        SelectionFields : [
-            ID,
-            title
-        ],
-        LineItem  : [
-            {Value:title},
-            {Value:ID},
-            {Value:status}
-        ],
+// // annotate MovieService.Movies with @odata.draft.enabled;
 
-        Facets  : [
-            {
-             $Type : 'UI.ReferenceFacet',
-             ID    : 'MoviegroupFacet',
-             Label : '{i18n>Moviegroup}',
-             Target: '@UI.FieldGroup#Moviegroup',
-            },
-        ],
+// annotate MovieService.Movies with @(
+//     UI: {
+//         HeaderInfo  : {
+//             $Type : 'UI.HeaderInfoType',
+//             TypeName : 'Movies',
+//             TypeNamePlural : 'Movies',
+//             Title:{
+//                 $Type : 'UI.DataField',
+//                 Label : '{i18n>Movietitle}',
+//                 Value : title,
+//             },
+//         },
+//         SelectionFields : [
+//             ID,
+//             title
+//         ],     
 
-        FieldGroup#Moviegroup: {
-            $Type : 'UI.FieldGroupType',
-            Data : [
-                {
-                 $Type: 'UI.DataField',
-                 Label: '{i18n>Movietitle}',
-                 Value: title,
-                },
-            ],
-        }
-    }
-);
+//         LineItem : [
+//             {Value:title,
+//              Criticality: crit,
+//              Label:'{i18n>Title}'},
+//             {Value:ID},
+//             {Value:status}
+//         ],
+
+//         LineItem.@UI.Criticality : crit,
+
+//         Facets  : [
+//             {
+//              $Type : 'UI.ReferenceFacet',
+//              ID    : 'MoviegroupFacet',
+//              Label : '{i18n>Moviegroup}',
+//              Target: '@UI.FieldGroup#Moviegroup',
+//             },
+//         ],
+
+//         FieldGroup#Moviegroup: {
+//             $Type : 'UI.FieldGroupType',
+//             Data : [
+//                 {
+//                  $Type: 'UI.DataField',
+//                  Label: '{i18n>Movietitle}',
+//                  Value: title,
+//                 },
+//             ],
+//         }
+//     }
+// );
 

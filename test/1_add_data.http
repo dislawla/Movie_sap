@@ -88,7 +88,7 @@ Content-Type: application/json
 
 {
   "post_ID" : "{{postID}}",
-  "firstName": "Sergey",
+  "firstName": "Sergey1",
   "lastName": "Burunov",
   "Emails": [
     { "kind": "work", "address": "s.bur@company.com" },
@@ -110,21 +110,25 @@ GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'
 @movieID = {{getMovie.response.body.$.value[0].ID}}
 
 # @name getEmployee
-GET {{baseUrl}}/movie/Employee?$filter=firstName eq 'Sergey' and lastName eq 'Burunov'
+GET {{baseUrl}}/movie/Employee?$filter=firstName eq 'Sergey1' and lastName eq 'Burunov'
 
 ###
 @employeeID = {{getEmployee.response.body.$.value[0].ID}}
 
+# POST {{baseUrl}}/movie/Movies('{{movieID}}')/staff
+# Content-Type: application/json
+
+# {
+#   "employee_ID": "{{employeeID}}"
+# }
 
 PATCH {{baseUrl}}/movie/Movies('{{movieID}}')
 Content-Type: application/json
 
 {
-  "staff": [
-    {
-      "employee_ID": "{{employeeID}}"
-    }
-  ]
+  "ID": "{{movieID}}",
+  "title": "Новое название фильма", 
+  "status": 1                           
 }
 ###
 GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'&$expand=staff

@@ -1,16 +1,22 @@
 using { sap.movie as mv } from '../db/schema';
 
-service MovieService @(path: '/movie') { 
-@requires           : 'authenticated-user'
-@cds.redirection.target
+type Criticality: Integer enum{
+    Red = 1;
+    Yellow = 2;
+    Green = 3;
+    Test = 4;
+};
 
+service MovieService @(path: '/movie') { 
   entity Movies as select from mv.Movies {
-    *
+    *,
+    virtual crit: Criticality,
+    virtual stattxt:String
   } excluding { modifiedAt, modifiedBy, createdAt, createdBy } 
   ;
 
   entity MVStatus( MvStatus: mv.Status)
-   as select * from Movies where status=:MvStatus;
+   as select from Movies { * } excluding { staff, scene } where status=:MvStatus ;
 
   @cds.redirection.target
   entity Employee as projection on mv.Employee;
@@ -31,5 +37,3 @@ service MovieService @(path: '/movie') {
 
   function sleep() returns Boolean;
 }
-
-// annotate MovieService.Movies with @odata.draft.enabled; 
