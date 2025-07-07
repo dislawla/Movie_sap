@@ -122,9 +122,4 @@ resources:
     service-plan: application
 parameters:
   enable-parallel-deployments: true
-# build-parameters:
-#   before-all:
-#   - builder: custom
-#     commands:
-#     - npm ci
-#     - npx cds build --production
+
