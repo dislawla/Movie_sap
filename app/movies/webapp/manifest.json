@@ -114,6 +114,15 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "pushMovieStatusa": {
+                      "command": "pushMovieStatus",
+                      "text": "{{pushMovieStatusText}}",
+                      "invocationGrouping": "ForSelection",
+                      "enabled": true,
+                      "requiresSelection": true
+                    }
                   }
                 }
               }
@@ -152,7 +161,15 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Movies"
+              "contextPath": "/Movies",
+              "actions": {
+                "pushMovieStatus": {
+                  "command": "pushMovieStatus",
+                  "text": "{{pushMovieStatusText}}",
+                  "enabled": true,
+                  "invocationGrouping": "ForContext"
+                }
+              }
             }
           }
         },

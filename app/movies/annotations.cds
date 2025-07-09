@@ -57,11 +57,11 @@ annotate MovieService.Movies with @(
              Label : '{@i18n>Moviegroup}',
              Target: '@UI.FieldGroup#Moviegroup',
             },
-            {
-             $Type : 'UI.ReferenceFacet',
-             Label : '{@i18n>Locgroup}',
-             Target : 'locations/@UI.FieldGroup#LocationsGroup',
-            },
+            // {
+            //  $Type : 'UI.ReferenceFacet',
+            //  Label : '{@i18n>Locgroup}',
+            //  Target : 'locations/@UI.FieldGroup#LocationsGroup',
+            // },
             {
                 $Type : 'UI.ReferenceFacet',
                 Label : '{@i18n>Staff}',
@@ -85,5 +85,32 @@ annotate MovieService.Movies with @(
                 }
             ],
         }
+    },
+    UI.HeaderFacets: [
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : '@UI.FieldGroup#Actions',
+            Label : 'Actions'
+        }
+    ],
+    
+    UI.Identification:[
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'MovieService.pushMovieStatus',
+            Label : '{{@i18n>pushMovieStatus}}',
+        }
+    ],
+
+    UI.FieldGroup #Actions : {
+        $Type: 'UI.FieldGroupType',
+        Data: [
+            {
+                $Type : 'UI.DataFieldForAction',
+                Action : 'MovieService.pushMovieStatus',
+                Label : '{{@i18n>pushMovieStatus}}',
+            }
+        ]
     }
+    
 );
