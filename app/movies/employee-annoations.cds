@@ -25,8 +25,13 @@ UI: {
                  $Type: 'UI.DataField',
                  Label: '{@i18n>Status}',
                  Value: firstName
+                },
+                {
+                 $Type: 'UI.DataField',
+                 Label: '{@i18n>Status}',
+                 Value: post.title
                 }
-            ],
-        },
+        ],
+    },
 },
 );

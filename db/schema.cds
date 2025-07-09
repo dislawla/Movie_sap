@@ -6,7 +6,7 @@ using {
         Country,
 } from '@sap/cds/common';
 
-type Location: Association to Locations;
+type Location: Association to one Locations;
 
 type EmailAddress : { kind:String; address:String; }
 type EmailAddresses : many EmailAddress;
@@ -40,10 +40,7 @@ entity Scenes: cuid, managed {
     location: Location;
 }
 
-entity Locations 
-    @(restrict: [
-    { grant: ['READ','WRITE'], to: 'Admin' } ] )
-    : cuid, managed
+entity Locations: cuid, managed
  {
     country: Country;
     title: String @mandatory;

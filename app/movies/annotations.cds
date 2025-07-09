@@ -1,5 +1,6 @@
 using MovieService.Movies from '../../srv/movie-service';
 using MovieService.Staff as staff from './staff-annotations.cds';
+using MovieService.Locations as locations from './location-annotations.cds';
 
 annotate MovieService.Movies with {
     title    @title: 'Title';
@@ -39,6 +40,12 @@ annotate MovieService.Movies with @(
                 Value:status,
                 Label:'{@i18n>Status}'
             },
+            {
+                $Type               : 'UI.DataField',
+                Value               : location_ID,
+                Label               : '{i18n>Location}',
+                ![@UI.Importance]   : #High,
+            },
         ],
 
         LineItem.@UI.Criticality : crit,
@@ -49,6 +56,11 @@ annotate MovieService.Movies with @(
              ID    : 'MoviegroupFacet',
              Label : '{@i18n>Moviegroup}',
              Target: '@UI.FieldGroup#Moviegroup',
+            },
+            {
+             $Type : 'UI.ReferenceFacet',
+             Label : '{@i18n>Locgroup}',
+             Target : 'locations/@UI.FieldGroup#LocationsGroup',
             },
             {
                 $Type : 'UI.ReferenceFacet',
