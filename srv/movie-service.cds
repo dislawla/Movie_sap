@@ -11,15 +11,23 @@ service MovieService @(path: '/movie') {
   entity Movies as select from mv.Movies {
     *,
     virtual crit: Criticality,
-    virtual stattxt:String
-  } excluding { modifiedAt, modifiedBy, createdAt, createdBy } 
-  ;
+    virtual stattxt:String,
+  } excluding { modifiedAt, modifiedBy, createdAt, createdBy }
+  actions{
+      @(Common.SideEffects : { TargetProperties : ['in/status','in/crit',] })
+      // @(Core.OperationAvailable : { $edmJson: { $Eq: [{ $Path: 'in/IsActiveEntity'}, false]}})
+    action pushMovieStatus() returns { message: String; }
+
+      @(Common.SideEffects : { TargetProperties : ['in/status','in/crit'] })
+    action backMovieStatus()
+  } ;
 
   entity MVStatus( MvStatus: mv.Status)
    as select from Movies { * } excluding { staff, scene } where status=:MvStatus ;
 
   @cds.redirection.target
   entity Employee as projection on mv.Employee;
+
   entity Locations as projection on mv.Locations;
   entity Posts     as projection on mv.Post;
   entity Scenes    as projection on mv.Scenes;
@@ -29,11 +37,16 @@ service MovieService @(path: '/movie') {
 
   entity EmployNames as projection on mv.EmployName;
 
-  action pushMovieStatus( movieID: Movies:ID ) returns { message: String; };
+  // action pushMovieStatus( movieID: Movies:ID ) returns { message: String; };
+
 
   function getActorsCount (movieID: Movies:ID ) returns Integer;
 
   function getMoviesByStatus( status: Movies:status) returns many Movies;
 
   function sleep() returns Boolean;
-}
+};
+
+  // extend projection MovieService.Movies with actions {
+  //  action pushMovieStatus() returns { message: String; };
+  // };

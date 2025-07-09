@@ -14,6 +14,9 @@
     "@sap/ux-ui5-tooling": "1"
   },
   "scripts": {
+    "start": "fiori run --open 'webapp/index.html'",
+    "start-local": "fiori run --config ./ui5-local.yaml --open 'webapp/index.html'",
+    "build": "ui5 build --clean-dest",
     "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
   }
 }

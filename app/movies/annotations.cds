@@ -7,9 +7,6 @@ annotate MovieService.Movies with {
     status   @title: '{i18n>Status}';
 } ;
 
-
-annotate MovieService.Movies with @odata.draft.enabled;
-
 annotate MovieService.Movies with @(
     UI: {
         HeaderInfo  : {
@@ -86,31 +83,36 @@ annotate MovieService.Movies with @(
             ],
         }
     },
-    UI.HeaderFacets: [
-        {
-            $Type : 'UI.ReferenceFacet',
-            Target : '@UI.FieldGroup#Actions',
-            Label : 'Actions'
-        }
-    ],
-    
+    // UI.HeaderFacets: [
+    //     {
+    //         $Type : 'UI.ReferenceFacet',
+    //         Target : '@UI.FieldGroup#Actions',
+    //         Label : '{@i18n>Actions}'
+    //     }
+    // ],
+
     UI.Identification:[
         {
             $Type : 'UI.DataFieldForAction',
             Action : 'MovieService.pushMovieStatus',
-            Label : '{{@i18n>pushMovieStatus}}',
+            Label : '{@i18n>pushMovieStatus}',
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'MovieService.backMovieStatus',
+            Label : '{@i18n>backMovieStatus}',
         }
-    ],
+    ]//,
 
-    UI.FieldGroup #Actions : {
-        $Type: 'UI.FieldGroupType',
-        Data: [
-            {
-                $Type : 'UI.DataFieldForAction',
-                Action : 'MovieService.pushMovieStatus',
-                Label : '{{@i18n>pushMovieStatus}}',
-            }
-        ]
-    }
+    // UI.FieldGroup #Actions : {
+    //     $Type: 'UI.FieldGroupType',
+    //     Data: [
+    //         {
+    //             $Type : 'UI.DataFieldForAction',
+    //             Action : 'MovieService.pushMovieStatus',
+    //             Label : '{@i18n>pushMovieStatus}'
+    //         }
+    //     ]
+    // }
     
 );

@@ -34,6 +34,7 @@ entity Movies : cuid, managed {
 
 }
 
+annotate Movies with @odata.draft.enabled;
 entity Scenes: cuid, managed {
     key parent : Association to Movies @mandatory @assert.target;
     title: String @mandatory ;

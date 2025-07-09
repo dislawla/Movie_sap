@@ -37,11 +37,11 @@ init(){
       });
     })
 
-    this.before ('pushMovieStatus', async req => {
+    this.before ('pushMovieStatus', Movies.drafts, async req => {
 
-      const {movieID} = req.data
+      const movieKeys = req.params[0]; 
 
-      const movie = await SELECT.one.from(Movies).where({ ID: movieID });
+      const movie = await SELECT.one.from(Movies, movieKeys);
 
         if (movie.status >= 3){
             return req.error('CANT_UPDATE_STATUS');
@@ -49,18 +49,51 @@ init(){
 
     })
 
-    this.on ('pushMovieStatus', async req => {
-        const {movieID} = req.data
+      this.on ('backMovieStatus', Movies, async req => {
 
-            // Получить текущее значение
-        const movie = await SELECT.one.from(Movies).where({ ID: movieID });
+        const movieKeys = req.params[0]; 
+
+        const movie = await SELECT.one.from(Movies, movieKeys);
+
         if (!movie) return req.error('MOVIE_NOT_FOUND');
 
-           // Увеличить статус
+        const newStatus = movie.status - 1;
+
+        const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
+
+        if (n > 0) {
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )
+        }
+      })
+
+      this.on ('pushMovieStatus', Movies.drafts, async req => {
+
+        const movieKeys = req.params[0]; 
+
+        const movie = await SELECT.one.from(Movies, movieKeys);
+
+        if (!movie) return req.error('MOVIE_NOT_FOUND');
+
         const newStatus = movie.status + 1;
 
-            // Обновить статус
-         const n = await UPDATE(Movies, movieID).with({ status: newStatus });
+        const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
+
+        if (n > 0) {
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )
+        }
+      })
+
+      this.on ('pushMovieStatus', Movies, async req => {
+
+        const movieKeys = req.params[0]; 
+
+        const movie = await SELECT.one.from(Movies, movieKeys);
+
+        if (!movie) return req.error('MOVIE_NOT_FOUND');
+
+        const newStatus = movie.status + 1;
+
+        const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
 
         if (n > 0) {
             return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )

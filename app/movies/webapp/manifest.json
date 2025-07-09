@@ -92,6 +92,16 @@
           "pattern": "Movies({key}):?query:",
           "name": "MoviesObjectPage",
           "target": "MoviesObjectPage"
+        },
+        {
+          "pattern": "Staff({key}):?query:",
+          "name": "StaffObjectPage",
+          "target": "StaffObjectPage"
+        },
+        {
+          "pattern": "Staff:?query:",
+          "name": "StaffMoviesObjectPage",
+          "target": "StaffMoviesObjectPage"
         }
       ],
       "targets": {
@@ -138,7 +148,7 @@
               "contextPath": "/Movies/staff",
               "variantManagement": "Page",
               "navigation": {
-                "Movies": {
+                "Staff": {
                   "detail": {
                     "route": "StaffMoviesObjectPage"
                   }
@@ -161,21 +171,13 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Movies",
-              "actions": {
-                "pushMovieStatus": {
-                  "command": "pushMovieStatus",
-                  "text": "{{pushMovieStatusText}}",
-                  "enabled": true,
-                  "invocationGrouping": "ForContext"
-                }
-              }
+              "contextPath": "/Movies"
             }
           }
         },
-        "StaffMoviesObjectPage": {
+        "StaffObjectPage": {
           "type": "Component",
-          "id": "StaffMoviesObjectPage",
+          "id": "StaffObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
