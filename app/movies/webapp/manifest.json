@@ -97,11 +97,6 @@
           "pattern": "Staff({key}):?query:",
           "name": "StaffObjectPage",
           "target": "StaffObjectPage"
-        },
-        {
-          "pattern": "Staff:?query:",
-          "name": "StaffMoviesObjectPage",
-          "target": "StaffMoviesObjectPage"
         }
       ],
       "targets": {
@@ -139,18 +134,18 @@
             }
           }
         },
-        "MoviesStaffList": {
+        "StaffList": {
           "type": "Component",
-          "id": "MoviesStaffList",
+          "id": "StaffList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/Movies/staff",
+              "contextPath": "/Staff",
               "variantManagement": "Page",
               "navigation": {
                 "Staff": {
                   "detail": {
-                    "route": "StaffMoviesObjectPage"
+                    "route": "StaffObjectPage"
                   }
                 }
               },
@@ -182,7 +177,7 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Movies/staff"
+              "contextPath": "/Staff"
             }
           }
         }
