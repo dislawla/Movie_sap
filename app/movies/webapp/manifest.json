@@ -167,7 +167,14 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/Movies"
-            }
+            },
+            "navigation": {
+              "staff": {
+                "detail": {
+                  "route": "StaffObjectPage"
+                  }
+                }
+              }
           }
         },
         "StaffObjectPage": {
