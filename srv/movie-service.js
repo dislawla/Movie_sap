@@ -4,16 +4,25 @@ class MovieService extends cds.ApplicationService{
 
 init(){
 
-    const { Movies } = cds.entities('MovieService');
+    const { Movies,Status } = cds.entities('MovieService');
 
-    this.on('READ', Movies, async (req, next) => {
+    this.on('READ', Movies, async (req,next) => {
 
       const results = await next();
 
       const movies = Array.isArray(results) ? results : [results];
 
-      movies.forEach(movie => {        
-        switch (movie.status) {
+      let movieStatusValue;
+
+      movies.forEach(movie => {  
+
+        if ('status' in movie){
+          movieStatusValue = movie.status.code;
+        }else{
+          movieStatusValue = movie.status_code;
+        }
+
+        switch (movieStatusValue) {
             case 0: 
                 movie.crit = 1; 
                 break;
@@ -43,7 +52,7 @@ init(){
 
       const movie = await SELECT.one.from(Movies, movieKeys);
 
-        if (movie.status >= 3){
+        if (movie.status_code >= 3){
             return req.error('CANT_UPDATE_STATUS');
         }
 
@@ -57,12 +66,14 @@ init(){
 
         if (!movie) return req.error('MOVIE_NOT_FOUND');
 
-        const newStatus = movie.status - 1;
+        const newStatus = movie.status_code - 1;
 
         const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
 
+        const status = await SELECT.one.from(Status).where({ code: newStatus}); 
+
         if (n > 0) {
-            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[status.name] )
         }
       })
 
@@ -74,12 +85,14 @@ init(){
 
         if (!movie) return req.error('MOVIE_NOT_FOUND');
 
-        const newStatus = movie.status + 1;
+        const newStatus = movie.status_code + 1;
 
-        const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
+        const n = await UPDATE(Movies, movieKeys).with({ status_code: newStatus });
+
+        const status = await SELECT.one.from(Status).where({ code: newStatus}); 
 
         if (n > 0) {
-            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[status.name] )
         }
       })
 
@@ -91,12 +104,14 @@ init(){
 
         if (!movie) return req.error('MOVIE_NOT_FOUND');
 
-        const newStatus = movie.status + 1;
+        const newStatus = movie.status_code + 1;
 
-        const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
+        const n = await UPDATE(Movies, movieKeys).with({ status_code: newStatus });
+
+        const status = await SELECT.one.from(Status).where({ code: newStatus}); 
 
         if (n > 0) {
-            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[newStatus] )
+            return req.info( 'PROMOTE_MOVIE_STATUS_SUCCSESS',[status.name] )
         }
       })
 

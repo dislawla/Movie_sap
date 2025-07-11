@@ -4,6 +4,7 @@ using {
         cuid,
         managed,
         Country,
+        sap.common.CodeList
 } from '@sap/cds/common';
 
 type Location: Association to one Locations;
@@ -18,27 +19,26 @@ type Status: Integer enum{
     Released = 3;
 }
 
+entity MovieStatus : CodeList {
+  key code : Status;
+};
+
 aspect EmployeeName  {
     firstName : String @mandatory ;
     lastName  : String @mandatory ;
 }
-
-
-
+@odata.draft.enabled
 entity Movies : cuid, managed {
   title : localized String @mandatory ;
   staff : Composition of many Staff on staff.movie = $self @cds.autoexpose;
   scene: Composition of many Scenes on scene.parent = $self @cds.autoexpose;
   location: Location @cds.autoexpose;
-  status : Status default 0;
-
+  status : Association to MovieStatus default 0 @mandatory @cds.autoexpose;
 }
-
-annotate Movies with @odata.draft.enabled;
 entity Scenes: cuid, managed {
     key parent : Association to Movies @mandatory @assert.target;
     title: String @mandatory ;
-    location: Location;
+    location: Location @cds.autoexpose;
 }
 
 entity Locations: cuid, managed
@@ -47,7 +47,7 @@ entity Locations: cuid, managed
     title: String @mandatory;
     property: Association to many Property on property.location = $self;
 } 
-
+annotate Locations with @odata.draft.enabled;
 entity Property: cuid, managed{
     type: Proptype; 
     title: String;  

@@ -1,4 +1,4 @@
-using MovieService from '../../srv/movie-service';
+using MovieService.Locations from '../../srv/movie-service';
 
 annotate MovieService.Locations with @(
     UI.HeaderInfo : {
@@ -21,8 +21,13 @@ annotate MovieService.Locations with @(
         Data : [
             {
                 $Type: 'UI.DataField',
+                Label: '{@i18n>ID}',
+                Value: ID
+            },
+            {
+                $Type: 'UI.DataField',
                 Label: '{@i18n>LocCountryCode}',
-                Value: country.code
+                Value: country_code
             },
             {
                 $Type: 'UI.DataField',
@@ -36,7 +41,7 @@ annotate MovieService.Locations with @(
         {
             $Type   : 'UI.ReferenceFacet',
             Target  : '@UI.FieldGroup#LocationsGroup',
-            Label   : '{i18n>Locations}',
+            Label   : '{i18n>LocationsFieldGroup}',
         }
 
     ]

@@ -94,9 +94,14 @@
           "target": "MoviesObjectPage"
         },
         {
-          "pattern": "Staff({key}):?query:",
+          "pattern": "Movies({key})/staff({staffKey}):?query:",
           "name": "StaffObjectPage",
           "target": "StaffObjectPage"
+        },
+        {
+          "name": "Movies_sceneObjectPage",
+          "pattern": "Movies({key})/scene({sceneKey}):?query:",
+          "target": "Movies_sceneObjectPage"
         }
       ],
       "targets": {
@@ -166,15 +171,20 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Movies"
-            },
-            "navigation": {
-              "staff": {
-                "detail": {
-                  "route": "StaffObjectPage"
+              "contextPath": "/Movies",
+              "navigation": {
+                "staff": {
+                  "detail": {
+                    "route": "StaffObjectPage"
+                  }
+                },
+                "scene": {
+                  "detail": {
+                    "route": "Movies_sceneObjectPage"
                   }
                 }
               }
+            }
           }
         },
         "StaffObjectPage": {
@@ -184,7 +194,18 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Staff"
+              "contextPath": "/Movies/staff"
+            }
+          }
+        },
+        "Movies_sceneObjectPage": {
+          "type": "Component",
+          "id": "Movies_sceneObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "navigation": {},
+              "contextPath": "/Movies/scene"
             }
           }
         }

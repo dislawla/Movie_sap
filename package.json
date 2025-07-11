@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "build hana": "cds build --for hana",
+    "build_hana": "cds build --for hana",
+    "deploy_hana_hybrid":"cds deploy --to hana --profile hybrid",
     "hybrid": "cds watch --profile hybrid",
     "dev": "cds watch --profile development",
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",

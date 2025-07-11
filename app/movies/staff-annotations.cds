@@ -1,5 +1,6 @@
-using MovieService from '../../srv/movie-service';
-// using MovieService.Employee as employee from './employee-annoations.cds';
+using MovieService.Staff from '../../srv/movie-service';
+using MovieService.Movies as movies from './annotations.cds';
+using MovieService.Employee as employee from './employee-annoations.cds';
 
 annotate MovieService.Staff with @(
 
@@ -8,7 +9,7 @@ annotate MovieService.Staff with @(
         TypeNamePlural  : '{i18n>Staff.typeNamePlural}',
         Title           : {
             $Type : 'UI.DataField',
-            Value : '{i18n>Staff}',
+            Value : '{@i18n>Staff}',
         },
         Description     : {
             $Type : 'UI.DataField',
@@ -19,31 +20,16 @@ annotate MovieService.Staff with @(
     UI.Facets  : [
             {
              $Type : 'UI.ReferenceFacet',
-             ID    : 'StaffgroupFacet',
-             Label : '{@i18n>Moviegroup}',
-             Target: '@UI.FieldGroup#Satffgroup',
+             ID    : 'EmployeegroupFacet',
+             Label : '{@i18n>StaffEmployee}',
+             Target: 'employee/@UI.FieldGroup#Employeegroup',
+            },
+            {
+             $Type : 'UI.ReferenceFacet',
+             Label : '{@i18n>Movies}',
+             Target : 'movie/@UI.LineItem',
             }
     ],
-
-    UI.FieldGroup#Satffgroup: {
-            
-            Data : [
-                {
-                 $Type: 'UI.DataField',
-                 Label: '{@i18n>Title}',
-                 Value: employee.firstName
-                },
-                {
-                 $Type: 'UI.DataField',
-                 Label: '{@i18n>Status}',
-                 Value: employee.post.title
-                }
-            ],
-    },
-
-    UI.SelectionFields : [
-            ID
-        ],  
 
     UI.LineItem #StaffList : [
         {
