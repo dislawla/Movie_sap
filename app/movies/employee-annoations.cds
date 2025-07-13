@@ -2,7 +2,7 @@ using MovieService.Employee from '../../srv/movie-service';
 
 annotate MovieService.Employee with {
     post @Common : { 
-        Text : 'emplyee.post.title',
+        Text : 'post.title',
         TextArrangement : #TextOnly ,
         ValueList       : {
             Label          : '{i18n>Location}',
@@ -14,7 +14,7 @@ annotate MovieService.Employee with {
                     LocalDataProperty : post_ID
                 },
                 {
-                    $Type: 'Common.ValueListParameterOut',
+                    $Type: 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty: 'title',
                 }
                 
@@ -71,5 +71,28 @@ UI.HeaderInfo  : {
                 },
             
         ],
-    }
+    },
+    UI.LineItem #EmployeeList : [
+        {
+            $Type : 'UI.DataField',
+            Value : ID,
+            Label : '{@i18n>ID}'
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : firstName,
+            Label : '{@i18n>FirstName}'
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : lastName, 
+            Label : '{@i18n>LastName}'
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : post_ID,  
+            Label : '{@i18n>SPost}'
+        },
+    
+    ],
 );

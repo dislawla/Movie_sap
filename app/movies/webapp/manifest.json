@@ -204,7 +204,6 @@
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
-              "navigation": {},
               "contextPath": "/Movies/scene"
             }
           }

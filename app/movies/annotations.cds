@@ -4,23 +4,19 @@ using MovieService.Locations as locations from './location-annotations.cds';
 using MovieService.Scenes as scene from './scenes-annotations.cds';
 
 annotate MovieService.Movies with {
-    title  @title: 'Title';
+    title  @title: 'Title' @mandatory;
     location @Common.Text : location.country_code @Common.TextArrangement : #TextOnly 
     @Common.ValueList       : {
             Label          : '{i18n>Location}',
             CollectionPath : 'Locations',
             Parameters     : [
-                // {
-                //     $Type             : 'Common.ValueListParameterFilterOnly',
-                //     ValueListProperty : 'ID',
-                // },
                 {
                     $Type             : 'Common.ValueListParameterInOut',
                     ValueListProperty : 'ID',
                     LocalDataProperty : location_ID
                 },
                 {
-                    $Type: 'Common.ValueListParameterOut',
+                    $Type: 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty: 'country_code',
                 },
                 {

@@ -27,8 +27,8 @@ annotate MovieService.Staff with @(
             },
             {
              $Type : 'UI.ReferenceFacet',
-             Label : '{@i18n>Movies}',
-             Target : 'movie/@UI.LineItem',
+             Label : '{@i18n>Employee}',
+             Target : 'employee/@UI.LineItem#EmployeeList',
             }
     ],
 
@@ -56,13 +56,4 @@ annotate MovieService.Staff with @(
     
     ],
 
-    // UI.Facets:
-    // [
-    //     {
-    //          $Type : 'UI.ReferenceFacet',
-    //          Label : '{@i18n>Employeegroup}',
-    //          Target: 'employee/@UI.FieldGroup#Employeegroup',
-    //     },
-
-    // ]
 );

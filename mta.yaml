@@ -43,6 +43,7 @@ modules:
     parameters:
       content-target: true
   - name: srv-api
+  - name: movies_ui_deployer
   parameters:
     content:
       instance:
@@ -78,6 +79,30 @@ modules:
 - name: HTML5Module
   type: html5
   path: app/HTML5Module
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+    supported-platforms: []
+
+- name: movies_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: Movie_sap-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - movies-content.zip
+      name: movies
+      target-path: resources/
+
+- name: movies
+  type: html5
+  path: app/movies
   build-parameters:
     builder: custom
     commands:

@@ -1,6 +1,32 @@
 using MovieService.Scenes from '../../srv/movie-service';
 using MovieService.Locations as locations from './location-annotations.cds';
 
+annotate MovieService.Scenes with {
+    title  @title: 'Title' @mandatory;
+    location @Common.Text : location.country_code @Common.TextArrangement : #TextOnly 
+    @Common.ValueList       : {
+            Label          : '{@i18n>Location}',
+            CollectionPath : 'Locations',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    ValueListProperty : 'ID',
+                    LocalDataProperty : location_ID
+                },
+                {
+                    $Type: 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'country_code',
+                },
+                {
+                    $Type: 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'title',
+                }
+                
+            ]
+        };
+    
+};
+
 annotate MovieService.Scenes with @(
 
     UI.HeaderInfo : {
@@ -8,11 +34,11 @@ annotate MovieService.Scenes with @(
         TypeNamePlural  : '{i18n>Scenes.typeNamePlural}',
         Title           : {
             $Type : 'UI.DataField',
-            Value : '{i18n>Scenes}',
+            Value : '{@i18n>Scene}',
         },
         Description     : {
             $Type : 'UI.DataField',
-            Value : title
+            Value : ID
         },
     },
 
@@ -36,13 +62,13 @@ annotate MovieService.Scenes with @(
             Data : [
                 {
                  $Type: 'UI.DataField',
-                 Label: '{@i18n>ID}',
-                 Value: ID
+                 Label: '{@i18n>Title}',
+                 Value: title
                 },
                 {
                  $Type: 'UI.DataField',
-                 Label: '{@i18n>Title}',
-                 Value: title
+                 Label: '{@i18n>Location}',
+                 Value: location_ID
                 }
             ],
     },
