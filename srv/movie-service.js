@@ -58,6 +58,20 @@ init(){
 
     })
 
+    this.before ('pushMovieStatus', Movies, async req => {
+
+      req.notify(`Critical action pressed`);
+
+      const movieKeys = req.params[0]; 
+
+      const movie = await SELECT.one.from(Movies, movieKeys);
+
+        if (movie.status_code >= 3){
+            return req.error('CANT_UPDATE_STATUS');
+        }
+
+    })
+
       this.on ('backMovieStatus', Movies, async req => {
 
         const movieKeys = req.params[0]; 
@@ -68,7 +82,7 @@ init(){
 
         const newStatus = movie.status_code - 1;
 
-        const n = await UPDATE(Movies, movieKeys).with({ status: newStatus });
+        const n = await UPDATE(Movies, movieKeys).with({ status_code: newStatus });
 
         const status = await SELECT.one.from(Status).where({ code: newStatus}); 
 

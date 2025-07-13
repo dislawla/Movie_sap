@@ -1,8 +1,31 @@
 using MovieService.Employee from '../../srv/movie-service';
 
-// annotate MovieService.Employee with @(
-//     post @Common.Text :  @Common.TextArrangement : #TextOnly;
-// ) ;
+annotate MovieService.Employee with {
+    post @Common : { 
+        Text : 'emplyee.post.title',
+        TextArrangement : #TextOnly ,
+        ValueList       : {
+            Label          : '{i18n>Location}',
+            CollectionPath : 'Posts',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    ValueListProperty : 'ID',
+                    LocalDataProperty : post_ID
+                },
+                {
+                    $Type: 'Common.ValueListParameterOut',
+                    ValueListProperty: 'title',
+                }
+                
+            ]
+        }
+     }
+     
+
+}
+    
+;
 
 annotate MovieService.Employee with @(
 

@@ -2,6 +2,7 @@ using MovieService.Staff from '../../srv/movie-service';
 using MovieService.Movies as movies from './annotations.cds';
 using MovieService.Employee as employee from './employee-annoations.cds';
 
+
 annotate MovieService.Staff with @(
 
     UI.HeaderInfo : {

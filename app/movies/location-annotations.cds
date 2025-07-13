@@ -15,6 +15,7 @@ annotate MovieService.Locations with @(
     },
 
 
+   
     UI.FieldGroup#LocationsGroup: 
     {
         $Type : 'UI.FieldGroupType',
@@ -37,6 +38,23 @@ annotate MovieService.Locations with @(
         ],
     }, 
 
+UI.FieldGroup#MovieLocationsGroup: 
+    {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type: 'UI.DataField',
+                Label: '{@i18n>LocCountryCode}',
+                Value: country_code
+            },
+            {
+                $Type: 'UI.DataField',
+                Label: '{@i18n>LocTitle}',
+                Value: title
+            }
+        ],
+    }, 
+    
     UI.QuickViewFacets:[
         {
             $Type   : 'UI.ReferenceFacet',

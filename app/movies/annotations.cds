@@ -5,8 +5,34 @@ using MovieService.Scenes as scene from './scenes-annotations.cds';
 
 annotate MovieService.Movies with {
     title  @title: 'Title';
-    location @Common.Text : location.country_code @Common.TextArrangement : #TextOnly;
-    status @title: '{i18n>Status}' @Common.Text : status.name @Common.TextArrangement : #TextOnly
+    location @Common.Text : location.country_code @Common.TextArrangement : #TextOnly 
+    @Common.ValueList       : {
+            Label          : '{i18n>Location}',
+            CollectionPath : 'Locations',
+            Parameters     : [
+                // {
+                //     $Type             : 'Common.ValueListParameterFilterOnly',
+                //     ValueListProperty : 'ID',
+                // },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    ValueListProperty : 'ID',
+                    LocalDataProperty : location_ID
+                },
+                {
+                    $Type: 'Common.ValueListParameterOut',
+                    ValueListProperty: 'country_code',
+                },
+                {
+                    $Type: 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'title',
+                }
+                
+            ]
+        };
+    
+    status @title: '{i18n>Status}' @Common.Text : status.name @Common.TextArrangement : #TextOnly;
+    
 };
 
 annotate MovieService.Movies with @(
@@ -65,8 +91,8 @@ annotate MovieService.Movies with @(
             },
             {
                 $Type : 'UI.ReferenceFacet',
-                Label : '{@i18n>Locations}',     
-                Target: 'location/@UI.FieldGroup#LocationsGroup',
+                Label : '{@i18n>LocationsFieldGroup}',     
+                Target: 'location/@UI.FieldGroup#MovieLocationsGroup',
             },
             // {
             //  $Type : 'UI.ReferenceFacet',
@@ -98,7 +124,13 @@ annotate MovieService.Movies with @(
                 $Type: 'UI.DataField',
                 Label: '{@i18n>Status}',
                 Value: status_code
+            },
+            {
+                $Type: 'UI.DataField',
+                Label: '{@i18n>Location}',
+                Value: location_ID
             }
+
         ], }
     },
     // UI.HeaderFacets: [

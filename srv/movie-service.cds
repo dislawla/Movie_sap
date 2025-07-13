@@ -27,7 +27,9 @@ service MovieService @(path: '/movie') {
    as select from Movies { * } excluding { staff, scene } where status.code=:MvStatus ;
 
   @cds.redirection.target
-  entity Employee as projection on mv.Employee;
+  entity Employee as select from mv.Employee{
+    *
+  };
 
   entity Locations as projection on mv.Locations;
   entity Posts     as projection on mv.Post;
