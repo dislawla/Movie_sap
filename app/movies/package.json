@@ -11,12 +11,19 @@
   "dependencies": {},
   "devDependencies": {
     "@ui5/cli": "^3.0.0",
-    "@sap/ux-ui5-tooling": "1"
+    "@sap/ux-ui5-tooling": "1",
+    "ui5-task-zipper": "^3"
   },
   "scripts": {
     "start": "fiori run --open 'webapp/index.html'",
     "start-local": "fiori run --config ./ui5-local.yaml --open 'webapp/index.html'",
     "build": "ui5 build --clean-dest",
-    "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
+    "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
+    "build-local": "ui5 build preload --clean-dest"
+  },
+  "ui5": {
+    "dependencies": [
+      "ui5-task-zipper"
+    ]
   }
 }

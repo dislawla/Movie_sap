@@ -10,141 +10,149 @@ build-parameters:
         - npm install
 
 modules:
-- name: Movie_sap-srv
-  type: nodejs
-  path: gen/srv
-  requires:
-  - name: Movie_sap-db
-  - name: Movie_sap-uaa
-  provides:
-  - name: srv-api
-    properties:
-      srv-url: ${default-url}
-  parameters:
-    buildpack: nodejs_buildpack
-    instances: 1
-  build-parameters:
-    builder: npm-ci
-
-- name: Movie_sap-db-deployer
-  type: hdb
-  path: gen/db
-  requires:
-  - name: Movie_sap-db
-  parameters:
-    buildpack: nodejs_buildpack
-
-- name: Movie_sap-destination-content
-  type: com.sap.application.content
-  requires:
-  - name: Movie_sap-uaa
-  - name: Movie_sap-repo-host
-  - name: Movie_sap-destination-service
-    parameters:
-      content-target: true
-  - name: srv-api
-  - name: movies_ui_deployer
-  parameters:
-    content:
-      instance:
-        destinations:
-        - Name: Movie_sap-repo-host
-          ServiceInstanceName: Movie_sap-repo-host
-          ServiceKeyName: Movie_sap-repo-host-key
-          sap.cloud.service: Movie_sap_app
-        - Name: Movie_sap-uaa
-          ServiceInstanceName: Movie_sap-uaa
-          ServiceKeyName: Movie_sap-uaa-key
-          sap.cloud.service: Movie_sap_app
-          Authentication: OAuth2UserTokenExchange
-        existing_destinations_policy: update
-  build-parameters:
-    no-source: true
-
-- name: Movie_sap-ui-deployer
-  type: com.sap.application.content
-  path: .
-  requires:
-  - name: Movie_sap-repo-host
-    parameters:
-      content-target: true
-  build-parameters:
-    build-result: resources
+  - name: Movie_sap-srv
+    type: nodejs
+    path: gen/srv
     requires:
-    - artifacts:
-      - HTML5Module-content.zip
-      name: HTML5Module
-      target-path: resources/
-
-- name: HTML5Module
-  type: html5
-  path: app/HTML5Module
-  build-parameters:
-    builder: custom
-    commands:
-    - npm run build
-    supported-platforms: []
-
-- name: movies_ui_deployer
-  type: com.sap.application.content
-  path: .
-  requires:
-  - name: Movie_sap-repo-host
+      - name: Movie_sap-db
+      - name: Movie_sap-uaa
+      - name: Movie_sap-destination-service
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
     parameters:
-      content-target: true
-  build-parameters:
-    build-result: resources
+      buildpack: nodejs_buildpack
+      instances: 1
+    build-parameters:
+      builder: npm-ci
+
+  - name: Movie_sap-db-deployer
+    type: hdb
+    path: gen/db
     requires:
-    - artifacts:
-      - movies-content.zip
-      name: movies
-      target-path: resources/
+      - name: Movie_sap-db
+    parameters:
+      buildpack: nodejs_buildpack
 
-- name: movies
-  type: html5
-  path: app/movies
-  build-parameters:
-    builder: custom
-    commands:
-    - npm run build
-    supported-platforms: []
+  - name: Movie_sap-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: Movie_sap-uaa
+      - name: Movie_sap-repo-host
+      - name: Movie_sap-destination-service
+        parameters:
+          content-target: true
+      - name: srv-api
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: Movie_sap-repo-host
+              ServiceInstanceName: Movie_sap-repo-host
+              ServiceKeyName: Movie_sap-repo-host-key
+              sap.cloud.service: Movie_sap_app
+            - Name: Movie_sap-uaa
+              ServiceInstanceName: Movie_sap-uaa
+              ServiceKeyName: Movie_sap-uaa-key
+              sap.cloud.service: Movie_sap_app
+              Authentication: OAuth2UserTokenExchange
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
 
+
+  - name: Movie_sap-app-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: Movie_sap-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: Movie_sapmovies
+          artifacts:
+            - movies.zip
+          target-path: app/
+        # - name: movies
+
+  - name: Movie_sapmovies
+    type: html5
+    path: app/movies
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
 resources:
 
-- name: Movie_sap-db
-  type: com.sap.xs.hdi-container
-  parameters:
-    service: hana
-    service-plan: hdi-shared
-- name: Movie_sap-destination-service
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      HTML5Runtime_enabled: true
-      version: 1.0.0
-    service: destination
-    service-name: Movie_sap-destination-service
-    service-plan: lite
+  - name: Movie_sap-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: Movie_sap-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: srv-api
+                URL: ~{srv-api/srv-url}
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+              - Name: ui5
+                URL: https://ui5.sap.com
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
+      service: destination
+      service-name: Movie_sap-destination-service
+      service-plan: lite
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
 
-- name: Movie_sap-repo-host
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: html5-apps-repo
-    service-keys:
-    - name: Movie_sap-repo-host-key
-    service-plan: app-host
+  - name: Movie_sap-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-keys:
+        - name: Movie_sap-repo-host-key
+      service-plan: app-host
 
-- name: Movie_sap-uaa
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      tenant-mode: dedicated
-      xsappname: Movie_sap-${org}-${space}
-    path: ./xs-security.json
-    service: xsuaa
-    service-keys:
-    - name: Movie_sap-uaa-key
-    service-plan: application
+  - name: Movie_sap-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: Movie_sap-${org}-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-keys:
+        - name: Movie_sap-uaa-key
+      service-plan: application
+  - name: Movie_sap-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
 parameters:
   enable-parallel-deployments: true
-
+  deploy_mode: html5-repo

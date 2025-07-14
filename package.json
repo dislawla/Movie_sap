@@ -20,7 +20,7 @@
   "scripts": {
     "start": "cds-serve",
     "build_hana": "cds build --for hana",
-    "deploy_hana_hybrid":"cds deploy --to hana --profile hybrid",
+    "deploy_hana_hybrid": "cds deploy --to hana --profile hybrid",
     "hybrid": "cds watch --profile hybrid",
     "dev": "cds watch --profile development",
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
@@ -38,7 +38,10 @@
       "[hybrid]": {
         "db": "hana",
         "auth": "xsuaa"
-      }
+      },
+      "destinations": true,
+      "html5-runtime": true,
+      "workzone": true
     },
     "sql": {
       "native_hana_associations": false

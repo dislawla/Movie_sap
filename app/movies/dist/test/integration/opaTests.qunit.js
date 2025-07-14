@@ -1,0 +1,2 @@
+sap.ui.require(["sap/fe/test/JourneyRunner","ns/movies/test/integration/FirstJourney","ns/movies/test/integration/pages/MoviesList","ns/movies/test/integration/pages/MoviesObjectPage"],function(e,s,i,t){"use strict";var e=new e({launchUrl:sap.ui.require.toUrl("ns/movies")+"/index.html"});e.run({pages:{onTheMoviesList:i,onTheMoviesObjectPage:t}},s.run)});
+//# sourceMappingURL=opaTests.qunit.js.map
