@@ -229,6 +229,6 @@
   },
   "sap.cloud": {
     "public": true,
-    "service": "Movie_sap.service"
+    "service": "Movie_sap_app"
   }
 }
