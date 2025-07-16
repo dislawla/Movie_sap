@@ -145,17 +145,17 @@ init(){
       return result[0].actorsCount;
   });
 
-  this.on('sleep', async () => {
-    try {
-        let dbQuery = ' Call "sleep"( )'
-        let result = await cds.run(dbQuery, { })
-        cds.log().info(result)
-        return true
-    } catch (error) {
-        cds.log().error(error)
-        return false
-    }
-  });
+  // this.on('sleep', async () => {
+  //   try {
+  //       let dbQuery = ' Call "sleep"( )'
+  //       let result = await cds.run(dbQuery, { })
+  //       cds.log().info(result)
+  //       return true
+  //   } catch (error) {
+  //       cds.log().error(error)
+  //       return false
+  //   }
+  // });
 
     return super.init();
 }

@@ -40,7 +40,7 @@ modules:
     content:
       instance:
         destinations:
-        - Name: Movie_sap-repo-host
+        - Name: Movie_sap-repo
           ServiceInstanceName: Movie_sap-repo-host
           ServiceKeyName: Movie_sap-repo-host-key
           sap.cloud.service: Movie_sap_app
@@ -61,12 +61,12 @@ modules:
     parameters:
       content-target: true
   build-parameters:
-    build-result: app/
+    build-result: resources/
     requires:
-      -name: Movie_sapmovies
-      artifacts:
-      - movies.zip
-      target-path: app/
+      - name: Movie_sapmovies
+        artifacts:
+        - movies.zip
+        target-path: resources/
 
 - name: Movie_sapmovies
   type: html5
@@ -75,7 +75,7 @@ modules:
     build-result: dist
     builder: custom
     commands:
-    - npm install
+    - npm ci
     - npm run build
     supported-platforms: []
 
@@ -139,16 +139,20 @@ resources:
     service-keys:
     - name: Movie_sap-uaa-key
     service-plan: application
+
 - name: Movie_sap-html5-runtime
   type: org.cloudfoundry.managed-service
   parameters:
     service: html5-apps-repo
     service-plan: app-runtime
+
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
+  
 build-parameters:
   before-all:
   - builder: custom
     commands:
-    - npm install
+    - npm ci
+    - npx cds build --production

@@ -28,8 +28,9 @@
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
     "auth_app_router": "cds bind --exec -- npm start --prefix app/router",
     "srv2xsuua": "cds compile srv/ --to xsuaa > xs-security.json",
+    "bind_uua" : "cds bind --to Movie_sap-uaa",
     "mta_build": "mbt build --mtar Movie_sap-mta",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "deploy": "cf deploy mta_archives/archive.mtar",
     "watch-movies": "cds watch --open movies/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy Movie_sap --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive"
