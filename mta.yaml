@@ -61,12 +61,11 @@ modules:
     parameters:
       content-target: true
   build-parameters:
-    build-result: resources/
     requires:
       - name: Movie_sapmovies
         artifacts:
         - movies.zip
-        target-path: app/
+        target-path: app/dist
 
 - name: Movie_sapmovies
   type: html5
