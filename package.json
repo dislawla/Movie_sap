@@ -16,8 +16,8 @@
   "devDependencies": {
     "@cap-js/cds-types": "^0.10.0",
     "@sap/cds-dk": ">=8",
-    "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
+    "mbt": "^1.2.29",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",
@@ -28,17 +28,19 @@
     "update_uua": "cf update-service Movie_sap-uaa -c xs-security.json",
     "auth_app_router": "cds bind --exec -- npm start --prefix app/router",
     "srv2xsuua": "cds compile srv/ --to xsuaa > xs-security.json",
-    "bind_uua" : "cds bind --to Movie_sap-uaa",
+    "bind_uua": "cds bind --to Movie_sap-uaa",
     "mta_build": "mbt build --mtar Movie_sap-mta",
-    "deploy": "cf deploy mta_archives/archive.mtar",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1 --delete-services",
     "watch-movies": "cds watch --open movies/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy Movie_sap --delete-services --delete-service-keys --delete-service-brokers",
-    "build": "rimraf resources mta_archives && mbt build --mtar archive"
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "watch-auth_loc": "cds watch --open auth_loc/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
       "[production]": {
-        "auth": "xsuaa"
+        "auth": "xsuaa",
+        "db": "hana"
       },
       "[hybrid]": {
         "db": "hana",
@@ -53,6 +55,7 @@
     }
   },
   "sapux": [
-    "app/movies"
+    "app/movies",
+    "app/auth_loc"
   ]
 }

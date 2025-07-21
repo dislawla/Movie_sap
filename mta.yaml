@@ -19,7 +19,6 @@ modules:
     instances: 1
   build-parameters:
     builder: npm-ci
-
 - name: Movie_sap-db-deployer
   type: hdb
   path: gen/db
@@ -44,11 +43,11 @@ modules:
           ServiceInstanceName: Movie_sap-repo-host
           ServiceKeyName: Movie_sap-repo-host-key
           sap.cloud.service: Movie_sap_app
-        - Authentication: OAuth2UserTokenExchange
-          Name: Movie_sap-uaa
+        - Name: Movie_sap-uaa
           ServiceInstanceName: Movie_sap-uaa
           ServiceKeyName: Movie_sap-uaa-key
           sap.cloud.service: Movie_sap_app
+          Authentication: OAuth2UserTokenExchange
         existing_destinations_policy: update
   build-parameters:
     no-source: true
@@ -61,12 +60,16 @@ modules:
     parameters:
       content-target: true
   build-parameters:
+    build-result: resources
     requires:
-      - name: Movie_sapmovies
-        artifacts:
-        - movies.zip
-        target-path: app/dist
-
+    - artifacts:
+      - movies.zip
+      name: Movie_sapmovies
+      target-path: resources/
+    - artifacts:
+      - nsauthloc.zip
+      name: nsauthloc
+      target-path: resources/
 - name: Movie_sapmovies
   type: html5
   path: app/movies
@@ -74,18 +77,25 @@ modules:
     build-result: dist
     builder: custom
     commands:
-    - npm ci
+    - npm install
     - npm run build
     supported-platforms: []
-
+- name: nsauthloc
+  type: html5
+  path: app/auth_loc
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
-
 - name: Movie_sap-db
   type: com.sap.xs.hdi-container
   parameters:
     service: hana
     service-plan: hdi-shared
-
 - name: Movie_sap-destination-service
   type: org.cloudfoundry.managed-service
   parameters:
@@ -118,7 +128,6 @@ resources:
       forwardAuthToken: true
       name: srv-api
       url: ~{srv-url}
-
 - name: Movie_sap-repo-host
   type: org.cloudfoundry.managed-service
   parameters:
@@ -126,7 +135,6 @@ resources:
     service-keys:
     - name: Movie_sap-repo-host-key
     service-plan: app-host
-
 - name: Movie_sap-uaa
   type: org.cloudfoundry.managed-service
   parameters:
@@ -138,17 +146,14 @@ resources:
     service-keys:
     - name: Movie_sap-uaa-key
     service-plan: application
-
 - name: Movie_sap-html5-runtime
   type: org.cloudfoundry.managed-service
   parameters:
     service: html5-apps-repo
     service-plan: app-runtime
-
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
-  
 build-parameters:
   before-all:
   - builder: custom
