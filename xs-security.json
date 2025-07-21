@@ -1,5 +1,19 @@
 {
-  "scopes": [],
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.suport",
+      "description": "suport"
+    }
+  ],
   "attributes": [],
-  "role-templates": []
+  "role-templates": [
+    {
+      "name": "suport",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.suport"
+      ],
+      "attribute-references": []
+    }
+  ]
 }

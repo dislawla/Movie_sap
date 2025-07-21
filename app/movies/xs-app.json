@@ -5,7 +5,7 @@
     {
       "source": "^/movie/(.*)$",
       "target": "/movie/$1",
-      "destination": "ui5",
+      "destination": "srv-api",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     },

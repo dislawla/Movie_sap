@@ -19,13 +19,13 @@ modules:
     instances: 1
   build-parameters:
     builder: npm-ci
+
 - name: Movie_sap-db-deployer
   type: hdb
   path: gen/db
   requires:
   - name: Movie_sap-db
-  parameters:
-    buildpack: nodejs_buildpack
+    
 - name: Movie_sap-destination-content
   type: com.sap.application.content
   requires:
@@ -63,11 +63,11 @@ modules:
     build-result: resources
     requires:
     - artifacts:
-      - movies.zip
+        - movies.zip
       name: Movie_sapmovies
       target-path: resources/
     - artifacts:
-      - nsauthloc.zip
+        - nsauthloc.zip
       name: nsauthloc
       target-path: resources/
 - name: Movie_sapmovies
@@ -96,18 +96,21 @@ resources:
   parameters:
     service: hana
     service-plan: hdi-shared
+
 - name: Movie_sap-destination-service
   type: org.cloudfoundry.managed-service
+  requires:
+    - name: srv-api
   parameters:
     config:
       HTML5Runtime_enabled: true
       init_data:
         instance:
           destinations:
-          - Authentication: NoAuthentication
+          - Name: srv-api
+            Authentication: NoAuthentication
             HTML5.DynamicDestination: true
             HTML5.ForwardAuthToken: true
-            Name: srv-api
             ProxyType: Internet
             Type: HTTP
             URL: ~{srv-api/srv-url}
@@ -121,13 +124,8 @@ resources:
     service: destination
     service-name: Movie_sap-destination-service
     service-plan: lite
-  requires:
-  - name: srv-api
-    group: destinations
-    properties:
-      forwardAuthToken: true
-      name: srv-api
-      url: ~{srv-url}
+  
+
 - name: Movie_sap-repo-host
   type: org.cloudfoundry.managed-service
   parameters:
@@ -146,6 +144,7 @@ resources:
     service-keys:
     - name: Movie_sap-uaa-key
     service-plan: application
+
 - name: Movie_sap-html5-runtime
   type: org.cloudfoundry.managed-service
   parameters:

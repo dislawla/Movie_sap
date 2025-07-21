@@ -7,8 +7,7 @@ type Criticality: Integer enum{
     Test = 4;
 };
 
-service MovieService @(path: '/movie') { 
-  @requires           : 'any'
+service MovieService @(path: '/movie', requires : 'suport') { 
 
   entity Movies as select from mv.Movies {
     *,

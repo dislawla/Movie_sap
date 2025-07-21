@@ -136,15 +136,6 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "pushMovieStatusa": {
-                      "command": "pushMovieStatus",
-                      "text": "{{pushMovieStatusText}}",
-                      "invocationGrouping": "ForSelection",
-                      "enabled": true,
-                      "requiresSelection": true
-                    }
                   }
                 }
               }
