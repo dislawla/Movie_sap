@@ -8,6 +8,8 @@ type Criticality: Integer enum{
 };
 
 service MovieService @(path: '/movie') { 
+  @requires           : 'any'
+
   entity Movies as select from mv.Movies {
     *,
     virtual crit: Criticality,
