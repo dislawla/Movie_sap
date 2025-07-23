@@ -5,7 +5,7 @@
 ### ------------------------------------------------------------------------
 # Create a new post
 # @name createNewPost
-POST {{baseUrl}}/admin/Post
+POST {{baseUrl}}/movie/Posts
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ###
 
-POST {{baseUrl}}/admin/Post
+POST {{baseUrl}}/movie/Posts
 Content-Type: application/json
 
 {
@@ -22,17 +22,25 @@ Content-Type: application/json
 }
 ### ------------------------------------------------------------------------
 
-POST {{baseUrl}}/admin/Locations
+POST {{baseUrl}}/movie/Locations
 Content-Type: application/json
 
 {
   "country_code": "ru",
   "title": "Москва"
 }
-
 ### ------------------------------------------------------------------------
 
-POST {{baseUrl}}/admin/Locations
+POST {{baseUrl}}/movie/Locations
+Content-Type: application/json
+
+{
+  "country_code": "us",
+  "title": "Wasington"
+}
+### ------------------------------------------------------------------------
+
+POST {{baseUrl}}/movie/Locations
 Content-Type: application/json
 
 {
@@ -103,11 +111,12 @@ Accept: application/json
 ### ------------------------------------------------------------------------
 
 # @name getMovie
-GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'
+GET {{baseUrl}}/movie/Movies?$filter=title eq '2'
 
 ###
 
 @movieID = {{getMovie.response.body.$.value[0].ID}}
+
 
 # @name getEmployee
 GET {{baseUrl}}/movie/Employee?$filter=firstName eq 'Sergey1' and lastName eq 'Burunov'
@@ -115,21 +124,13 @@ GET {{baseUrl}}/movie/Employee?$filter=firstName eq 'Sergey1' and lastName eq 'B
 ###
 @employeeID = {{getEmployee.response.body.$.value[0].ID}}
 
-# POST {{baseUrl}}/movie/Movies('{{movieID}}')/staff
-# Content-Type: application/json
-
-# {
-#   "employee_ID": "{{employeeID}}"
-# }
-
-PATCH {{baseUrl}}/movie/Movies('{{movieID}}')
+POST {{baseUrl}}/movie/Movies(ID={{movieID}},IsActiveEntity=true)/staff
 Content-Type: application/json
 
 {
-  "ID": "{{movieID}}",
-  "title": "Новое название фильма", 
-  "status": 1                           
+  "employee_ID": "{{employeeID}}"
 }
+
 ###
 GET {{baseUrl}}/movie/Movies?$filter=title eq 'The Matrix'&$expand=staff
 

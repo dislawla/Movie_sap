@@ -30,11 +30,13 @@
     "srv2xsuua": "cds compile srv/ --to xsuaa > xs-security.json",
     "bind_uua": "cds bind --to Movie_sap-uaa",
     "mta_build": "mbt build --mtar Movie_sap-mta",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1 --delete-services",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
     "watch-movies": "cds watch --open movies/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy Movie_sap --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "watch-auth_loc": "cds watch --open auth_loc/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-auth_loc": "cds watch --open auth_loc/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-staff": "cds watch --open staff/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-employee": "cds watch --open employee/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -56,6 +58,8 @@
   },
   "sapux": [
     "app/movies",
-    "app/auth_loc"
+    "app/auth_loc",
+    "app/staff",
+    "app/employee"
   ]
 }

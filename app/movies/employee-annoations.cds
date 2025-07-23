@@ -67,7 +67,7 @@ UI.HeaderInfo  : {
                 {
                  $Type: 'UI.DataField',
                  Label: '{@i18n>PostTitle}',
-                 Value: post_ID
+                 Value: post.title
                 },
             
         ],

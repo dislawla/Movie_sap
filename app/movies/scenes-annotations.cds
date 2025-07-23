@@ -53,7 +53,7 @@ annotate MovieService.Scenes with @(
              $Type : 'UI.ReferenceFacet',
              ID    : 'SceneLocGroupFacet',
              Label : '{@i18n>ScenesLoc}',
-             Target: 'location/@UI.FieldGroup#LocationsGroup',
+             Target: 'location/@UI.FieldGroup#MovieLocationsGroup',
             }
     ],
 
@@ -77,17 +77,17 @@ annotate MovieService.Scenes with @(
             {
               $Type: 'UI.DataField',
               Value: ID,
-              Label: '{i18n>ID}'
+              Label: '{@i18n>ID}'
             },
             {
               $Type: 'UI.DataField',
               Value: title,
-              Label: '{i18n>Title}'
+              Label: '{@i18n>Title}'
             },
             {
                 $Type            : 'UI.DataField',
                 Value            : location_ID,
-                Label            : '{i18n>Location}',
+                Label            : '{@i18n>Location}',
                 ![@UI.Importance]: #High,
             }
         ]

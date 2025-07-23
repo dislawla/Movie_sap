@@ -4,7 +4,8 @@ using MovieService.Locations as locations from './location-annotations.cds';
 using MovieService.Scenes as scene from './scenes-annotations.cds';
 
 annotate MovieService.Movies with {
-    title  @title: 'Title' @mandatory;
+    ID @title: '{@i18n>ID}';
+    title  @title: '{@i18n>Title}' @mandatory;
     location @Common.Text : location.country_code @Common.TextArrangement : #TextOnly 
     @Common.ValueList       : {
             Label          : '{i18n>Location}',
@@ -35,8 +36,8 @@ annotate MovieService.Movies with @(
     UI               : {
         HeaderInfo              : {
             $Type         : 'UI.HeaderInfoType',
-            TypeName      : 'Movies',
-            TypeNamePlural: 'Movies',
+            TypeName      : '{@i18n>Movies}',
+            TypeNamePlural: '{@i18n>Movies}',
             Title         : {
                 $Type: 'UI.DataField',
                 Label: '{i18n>Movietitle}',
@@ -62,7 +63,7 @@ annotate MovieService.Movies with @(
             {
                 $Type            : 'UI.DataField',
                 Value            : location_ID,
-                Label            : '{i18n>Location}',
+                Label            : '{@i18n>Location}',
                 ![@UI.Importance]: #High,
             },
             {

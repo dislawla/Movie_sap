@@ -1,6 +1,6 @@
 using { sap.movie as mv } from '../db/schema';
 
-service AdminService @(path: '/admin', requires : 'authenticated-user') { 
+service AdminService @(path: '/admin', requires : 'admin') { 
 @cds.redirection.target
 
   entity Locations as projection on mv.Locations;

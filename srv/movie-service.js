@@ -16,7 +16,7 @@ init(){
 
       movies.forEach(movie => {  
 
-        if ('status' in movie){
+        if ('status' in movie && movie.status && 'code' in movie.status){
           movieStatusValue = movie.status.code;
         }else{
           movieStatusValue = movie.status_code;
@@ -145,17 +145,6 @@ init(){
       return result[0].actorsCount;
   });
 
-  // this.on('sleep', async () => {
-  //   try {
-  //       let dbQuery = ' Call "sleep"( )'
-  //       let result = await cds.run(dbQuery, { })
-  //       cds.log().info(result)
-  //       return true
-  //   } catch (error) {
-  //       cds.log().error(error)
-  //       return false
-  //   }
-  // });
 
     return super.init();
 }

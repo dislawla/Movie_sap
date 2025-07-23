@@ -19,13 +19,11 @@ modules:
     instances: 1
   build-parameters:
     builder: npm-ci
-
 - name: Movie_sap-db-deployer
   type: hdb
   path: gen/db
   requires:
   - name: Movie_sap-db
-    
 - name: Movie_sap-destination-content
   type: com.sap.application.content
   requires:
@@ -43,15 +41,14 @@ modules:
           ServiceInstanceName: Movie_sap-repo-host
           ServiceKeyName: Movie_sap-repo-host-key
           sap.cloud.service: Movie_sap_app
-        - Name: Movie_sap-uaa
+        - Authentication: OAuth2UserTokenExchange
+          Name: Movie_sap-uaa
           ServiceInstanceName: Movie_sap-uaa
           ServiceKeyName: Movie_sap-uaa-key
           sap.cloud.service: Movie_sap_app
-          Authentication: OAuth2UserTokenExchange
         existing_destinations_policy: update
   build-parameters:
     no-source: true
-    
 - name: Movie_sap-app-deployer
   type: com.sap.application.content
   path: .
@@ -63,12 +60,16 @@ modules:
     build-result: resources
     requires:
     - artifacts:
-        - movies.zip
+      - movies.zip
       name: Movie_sapmovies
       target-path: resources/
     - artifacts:
-        - nsauthloc.zip
+      - nsauthloc.zip
       name: nsauthloc
+      target-path: resources/
+    - artifacts:
+      - employee.zip
+      name: employee
       target-path: resources/
 - name: Movie_sapmovies
   type: html5
@@ -80,6 +81,7 @@ modules:
     - npm install
     - npm run build
     supported-platforms: []
+
 - name: nsauthloc
   type: html5
   path: app/auth_loc
@@ -88,7 +90,18 @@ modules:
     builder: custom
     commands:
     - npm install
-    - npm run build:cf
+    - npm run build
+    supported-platforms: []
+
+- name: employee
+  type: html5
+  path: app/employee
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build
     supported-platforms: []
 resources:
 - name: Movie_sap-db
@@ -96,21 +109,18 @@ resources:
   parameters:
     service: hana
     service-plan: hdi-shared
-
 - name: Movie_sap-destination-service
   type: org.cloudfoundry.managed-service
-  requires:
-    - name: srv-api
   parameters:
     config:
       HTML5Runtime_enabled: true
       init_data:
         instance:
           destinations:
-          - Name: srv-api
-            Authentication: NoAuthentication
+          - Authentication: NoAuthentication
             HTML5.DynamicDestination: true
             HTML5.ForwardAuthToken: true
+            Name: srv-api
             ProxyType: Internet
             Type: HTTP
             URL: ~{srv-api/srv-url}
@@ -124,8 +134,8 @@ resources:
     service: destination
     service-name: Movie_sap-destination-service
     service-plan: lite
-  
-
+  requires:
+  - name: srv-api
 - name: Movie_sap-repo-host
   type: org.cloudfoundry.managed-service
   parameters:
@@ -144,7 +154,6 @@ resources:
     service-keys:
     - name: Movie_sap-uaa-key
     service-plan: application
-
 - name: Movie_sap-html5-runtime
   type: org.cloudfoundry.managed-service
   parameters:

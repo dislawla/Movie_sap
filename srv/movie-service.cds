@@ -4,7 +4,6 @@ type Criticality: Integer enum{
     Red = 1;
     Yellow = 2;
     Green = 3;
-    Test = 4;
 };
 
 service MovieService @(path: '/movie', requires : 'suport') { 
@@ -42,16 +41,7 @@ service MovieService @(path: '/movie', requires : 'suport') {
 
   entity EmployNames as projection on mv.EmployName;
 
-  // action pushMovieStatus( movieID: Movies:ID ) returns { message: String; };
-
-
   function getActorsCount (movieID: Movies:ID ) returns Integer;
 
-  // function getMoviesByStatus( status: Movies:status_code) returns many Movies;
-
-  function sleep() returns Boolean;
 };
 
-  // extend projection MovieService.Movies with actions {
-  //  action pushMovieStatus() returns { message: String; };
-  // };

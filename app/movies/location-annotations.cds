@@ -59,7 +59,7 @@ UI.FieldGroup#MovieLocationsGroup:
         {
             $Type   : 'UI.ReferenceFacet',
             Target  : '@UI.FieldGroup#LocationsGroup',
-            Label   : '{i18n>LocationsFieldGroup}',
+            Label   : '{@i18n>Location}',
         }
 
     ]
