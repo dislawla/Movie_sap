@@ -54,6 +54,7 @@ annotate MovieService.Movies with @(
             {
                 Value      : title,
                 Criticality: crit,
+                
                 Label      : '{@i18n>Title}'
             },
             {

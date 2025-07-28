@@ -24,7 +24,8 @@
   "ui5": {
     "dependencies": [
       "ui5-task-zipper"
-    ]
+    ],
+    "icon": "sap-icon://add-photo"
   },
   "cds": {
     "requires": {

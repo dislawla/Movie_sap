@@ -215,6 +215,7 @@
     }
   },
   "sap.fiori": {
+    
     "registrationIds": [],
     "archeType": "transactional"
   },
